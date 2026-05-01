@@ -1,0 +1,181 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #0f223a;
+    color: #f5f7fa;
+}
+
+a {
+    color: inherit;
+}
+
+.topbar {
+    background: #122944;
+    border-bottom: 3px solid #d4af37;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .5px;
+}
+
+.nav-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.badge {
+    background: #d4af37;
+    color: #10233a;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.container {
+    width: 94%;
+    max-width: 1280px;
+    margin: 42px auto;
+}
+
+.panel {
+    background: #162f4f;
+    border-left: 4px solid #d4af37;
+    border-radius: 6px;
+    padding: 26px;
+    margin-bottom: 28px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, .28);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.grid.two-column {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.card {
+    background: #18375c;
+    border: 1px solid #2c4c73;
+    border-radius: 6px;
+    padding: 22px;
+    min-height: 150px;
+}
+
+.card h3,
+.panel h2 {
+    margin-top: 0;
+}
+
+.link-list {
+    display: grid;
+    gap: 10px;
+}
+
+.link-list a,
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    background: #d4af37;
+    color: #10233a;
+    border: 0;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.link-list a.secondary,
+.btn.secondary {
+    background: #244c78;
+    color: #f5f7fa;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+label {
+    display: block;
+    color: #c9d6e6;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    background: #0f223a;
+    color: #fff;
+    border: 1px solid #2c4c73;
+    border-radius: 4px;
+    padding: 11px;
+    margin-bottom: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #2c4c73;
+    text-align: left;
+}
+
+th {
+    background: #122944;
+}
+
+.muted {
+    color: #b8c6db;
+}
+
+.login-shell {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.login-card {
+    width: min(460px, 100%);
+    background: #162f4f;
+    border-top: 4px solid #d4af37;
+    border-radius: 8px;
+    padding: 34px;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, .35);
+}
+
+.message {
+    padding: 11px 13px;
+    background: #51252b;
+    color: #ffd9df;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.message.success {
+    background: #1f4c3a;
+    color: #d8ffe9;
+}
