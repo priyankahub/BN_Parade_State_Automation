@@ -8,33 +8,101 @@ if (!isset($_SESSION["role"])) {
 
 $role = $_SESSION["role"];
 $name = $_SESSION["name"];
+
+include("config/db.php");
+
+// Quick stats
+$totalPersonnel = mysqli_fetch_row(mysqli_query($conn,
+    "SELECT COUNT(*) FROM personnel WHERE service_status = 'Serving'"))[0] ?? 0;
+
+$totalCompanies = mysqli_fetch_row(mysqli_query($conn,
+    "SELECT COUNT(*) FROM companies WHERE is_active = 1"))[0] ?? 0;
+
+$today = date("Y-m-d");
+$presentToday = mysqli_fetch_row(mysqli_query($conn,
+    "SELECT COUNT(*) FROM attendance WHERE attendance_date = '$today' AND status = 'Present'"))[0] ?? 0;
+
+$pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
+    "SELECT COUNT(*) FROM attendance WHERE approval_status = 'Pending'"))[0] ?? 0;
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <?php include("includes/head_meta.php"); ?>
     <title>Dashboard | BN Parade State Portal</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<div class="topbar">
-    <div class="brand">BN Parade State Portal</div>
-    <div class="nav-actions">
-        <span class="badge"><?php echo $role; ?></span>
-        <a class="btn secondary" href="profile.php">Profile</a>
-        <a class="btn secondary" href="logout.php">Logout</a>
-    </div>
-</div>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<?php $_tp = ''; include("includes/topbar.php"); ?>
 
-<div class="container">
+<main id="main-content" class="container">
     <div class="panel">
-        <h2>Welcome, <?php echo htmlspecialchars($name); ?></h2>
-        <p class="muted">Manage daily attendance, strength, leave, duty details, reports and approvals.</p>
+        <div class="page-header" style="margin-bottom:0;">
+            <h1 style="font-size:22px;">Welcome, <?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></h1>
+            <p class="page-sub">Manage daily attendance, strength, leave, duty details, reports and approvals.</p>
+        </div>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-value"><?php echo $totalPersonnel; ?></span>
+                <span class="stat-label">Serving Personnel</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-value"><?php echo $totalCompanies; ?></span>
+                <span class="stat-label">Active Companies</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(34,134,58,.15);color:var(--status-present)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-value" style="color:var(--status-present)"><?php echo $presentToday; ?></span>
+                <span class="stat-label">Present Today</span>
+            </div>
+        </div>
+        <?php if (in_array($role, ["ADMIN","ADJT_SA"])): ?>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:var(--saffron-muted);color:var(--saffron)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-value" style="color:<?php echo $pendingApprovals > 0 ? 'var(--saffron)' : 'var(--gold)'; ?>"><?php echo $pendingApprovals; ?></span>
+                <span class="stat-label">Pending Approvals</span>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 
     <div class="grid">
+        <div class="card">
+            <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Nominal Roll
+            </h3>
+            <div class="link-list">
+                <a href="admin/manage_soldiers.php">View Personnel</a>
+                <a href="admin/nominal_roll_analytics.php">Analytics Dashboard</a>
+            </div>
+        </div>
+
         <?php if ($role === "ADMIN"): ?>
             <div class="card">
-                <h3>Master Data</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    Master Data
+                </h3>
                 <div class="link-list">
                     <a href="admin/company_master.php">Company Master</a>
                     <a href="admin/platoon_section_master.php">Platoon / Section Master</a>
@@ -42,7 +110,10 @@ $name = $_SESSION["name"];
                 </div>
             </div>
             <div class="card">
-                <h3>User Control</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    User Control
+                </h3>
                 <div class="link-list">
                     <a href="admin/create_user.php">Create User</a>
                     <a href="admin/manage_users.php">Manage Users</a>
@@ -50,7 +121,10 @@ $name = $_SESSION["name"];
                 </div>
             </div>
             <div class="card">
-                <h3>Approvals</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    Approvals
+                </h3>
                 <div class="link-list">
                     <a href="admin/approve_attendance.php">Approve Attendance</a>
                     <a href="admin/approve_leave.php">Approve Leave</a>
@@ -60,7 +134,10 @@ $name = $_SESSION["name"];
 
         <?php if ($role === "ADJT_SA"): ?>
             <div class="card">
-                <h3>Parade State Control</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Parade State Control
+                </h3>
                 <div class="link-list">
                     <a href="adjt_sa/battalion_parade_state.php">Battalion Parade State</a>
                     <a href="adjt_sa/approve_parade_state.php">Approve Parade State</a>
@@ -72,7 +149,10 @@ $name = $_SESSION["name"];
 
         <?php if ($role === "CHM_CLERK"): ?>
             <div class="card">
-                <h3>Company Entries</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    Company Entries
+                </h3>
                 <div class="link-list">
                     <a href="clerk/daily_attendance.php">Daily Attendance</a>
                     <a href="clerk/leave_entry.php">Leave Entry</a>
@@ -87,7 +167,10 @@ $name = $_SESSION["name"];
 
         <?php if (in_array($role, ["ADMIN", "ADJT_SA", "USER"])): ?>
             <div class="card">
-                <h3>Reports</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Reports
+                </h3>
                 <div class="link-list">
                     <a href="reports/daily_parade_state.php">Daily Parade State</a>
                     <a href="reports/coy_strength_summary.php">Coy-wise Strength Summary</a>
@@ -100,7 +183,10 @@ $name = $_SESSION["name"];
 
         <?php if ($role === "USER"): ?>
             <div class="card">
-                <h3>Read Only</h3>
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Read Only
+                </h3>
                 <div class="link-list">
                     <a href="user/view_parade_state.php">View Parade State</a>
                     <a href="user/view_reports.php">View Reports</a>
@@ -108,6 +194,6 @@ $name = $_SESSION["name"];
             </div>
         <?php endif; ?>
     </div>
-</div>
+</main>
 </body>
 </html>

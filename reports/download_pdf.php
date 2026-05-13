@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["role"])) {
-    die("Access Denied");
+    header("Location: ../auth/login.php"); exit;
 }
 
 echo "PDF download module placeholder.";

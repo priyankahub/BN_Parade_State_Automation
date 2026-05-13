@@ -1,0 +1,886 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word 15">
+<meta name="Originator" content="Microsoft Word 15">
+<!--[if gte mso 9]>
+<xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml>
+<![endif]-->
+<style>
+  body { font-family: Calibri, sans-serif; font-size: 11pt; color: #000; margin: 2cm; line-height: 1.5; }
+  h1 { font-size: 22pt; font-weight: bold; color: #1a3a5c; text-align: center; border-bottom: 3px solid #c9a227; padding-bottom: 8pt; margin-top: 20pt; }
+  h2 { font-size: 16pt; font-weight: bold; color: #1a3a5c; border-left: 5px solid #c9a227; padding-left: 8pt; margin-top: 18pt; page-break-after: avoid; }
+  h3 { font-size: 13pt; font-weight: bold; color: #2c5282; margin-top: 14pt; page-break-after: avoid; }
+  h4 { font-size: 11pt; font-weight: bold; color: #2d3748; margin-top: 10pt; }
+  p { margin: 6pt 0; }
+  table { border-collapse: collapse; width: 100%; margin: 10pt 0; font-size: 10pt; }
+  th { background-color: #1a3a5c; color: #ffffff; padding: 6pt 8pt; text-align: left; font-weight: bold; border: 1pt solid #1a3a5c; }
+  td { padding: 5pt 8pt; border: 1pt solid #cccccc; vertical-align: top; }
+  tr:nth-child(even) td { background-color: #f0f4f8; }
+  .cover-title { font-size: 28pt; font-weight: bold; color: #1a3a5c; text-align: center; margin-top: 80pt; }
+  .cover-sub { font-size: 16pt; color: #c9a227; text-align: center; margin-top: 10pt; }
+  .cover-meta { font-size: 11pt; color: #555; text-align: center; margin-top: 40pt; }
+  .note-box { background-color: #fff8e1; border-left: 4px solid #f9a825; padding: 8pt 12pt; margin: 10pt 0; }
+  .info-box { background-color: #e3f2fd; border-left: 4px solid #1976d2; padding: 8pt 12pt; margin: 10pt 0; }
+  .warn-box { background-color: #fce4ec; border-left: 4px solid #c62828; padding: 8pt 12pt; margin: 10pt 0; }
+  code { font-family: Courier New, monospace; font-size: 10pt; background-color: #f5f5f5; padding: 1pt 4pt; }
+  pre { font-family: Courier New, monospace; font-size: 9pt; background-color: #f5f5f5; padding: 10pt; border: 1pt solid #ddd; margin: 8pt 0; white-space: pre-wrap; }
+  ul { margin: 6pt 0 6pt 20pt; }
+  ol { margin: 6pt 0 6pt 20pt; }
+  li { margin: 3pt 0; }
+  .page-break { page-break-before: always; }
+  .toc-entry { margin: 4pt 0; }
+  .badge-admin { background-color: #c62828; color: white; padding: 2pt 6pt; font-size: 9pt; font-weight: bold; }
+  .badge-adjt { background-color: #1565c0; color: white; padding: 2pt 6pt; font-size: 9pt; font-weight: bold; }
+  .badge-clerk { background-color: #558b2f; color: white; padding: 2pt 6pt; font-size: 9pt; font-weight: bold; }
+  .badge-user { background-color: #f57f17; color: white; padding: 2pt 6pt; font-size: 9pt; font-weight: bold; }
+  .section-divider { border: none; border-top: 2px solid #c9a227; margin: 20pt 0; }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-title">BN Parade State Automation</div>
+<div class="cover-sub">Battalion Attendance &amp; Strength Management Portal</div>
+<p style="text-align:center; margin-top:20pt;"><img width="80" height="80" src="" alt="[Infantry School Logo]" /></p>
+<p style="text-align:center; font-size:13pt; color:#555; margin-top:10pt;">The Infantry School, Mhow</p>
+<div class="cover-meta">
+  <p><strong>Technology Stack:</strong> PHP | MySQL | HTML5 | CSS3 | JavaScript</p>
+  <p><strong>Server:</strong> XAMPP (Apache + MySQL) on Windows</p>
+  <p><strong>Version:</strong> 1.2 &nbsp;|&nbsp; <strong>Date:</strong> May 2026</p>
+  <p><strong>Prepared for:</strong> New Developers / Onboarding Reference</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- TABLE OF CONTENTS -->
+<h1>Table of Contents</h1>
+<ol>
+  <li class="toc-entry">What Is This Project? (Plain English Overview)</li>
+  <li class="toc-entry">Why Was This Built? (Agenda &amp; Problem Statement)</li>
+  <li class="toc-entry">Technology Stack &amp; Prerequisites</li>
+  <li class="toc-entry">Project Folder &amp; File Structure (Every File Explained)</li>
+  <li class="toc-entry">Database Design (All 11 Tables Explained)</li>
+  <li class="toc-entry">User Roles &amp; What Each Role Can Do</li>
+  <li class="toc-entry">How the Application Works (Step-by-Step Workflows)</li>
+  <li class="toc-entry">Security Features</li>
+  <li class="toc-entry">UI/UX Design (Look, Feel &amp; Themes)</li>
+  <li class="toc-entry">Setting Up the Project Locally (Setup Guide)</li>
+  <li class="toc-entry">Default Login Credentials</li>
+  <li class="toc-entry">Common Errors &amp; Troubleshooting</li>
+  <li class="toc-entry">Glossary of Military Terms Used in Code</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- SECTION 1 -->
+<h1>1. What Is This Project? (Plain English Overview)</h1>
+<p>
+  <strong>BN Parade State Automation</strong> is a web-based application built for an Indian Army Infantry Battalion.
+  Its purpose is to <strong>replace paper-based parade state registers</strong> with a digital, role-controlled portal.
+</p>
+<p>
+  Every morning in an Army unit, a <em>Parade State</em> is prepared — it tells the Commanding Officer exactly how many soldiers
+  are present, how many are on leave, how many are sick, on courses, on duty, etc. Traditionally this was done manually
+  with paper forms, which were error-prone, slow, and hard to archive.
+</p>
+<p>This system digitises the entire process:</p>
+<ul>
+  <li>Company clerks log in and enter daily attendance for each soldier in their company</li>
+  <li>The Adjutant (second-in-command administrator) reviews and approves the compiled state</li>
+  <li>The Commanding Officer and other officers view a clean, real-time report</li>
+  <li>Everything is archived automatically for historical reference</li>
+</ul>
+<div class="info-box">
+  <strong>Think of it like this:</strong> It is an HR attendance system, but built specifically for the structure,
+  terminology, and workflows of an Indian Army battalion.
+</div>
+
+<h2>Key Capabilities at a Glance</h2>
+<table>
+  <tr><th>Capability</th><th>Description</th></tr>
+  <tr><td>Daily Attendance</td><td>Mark each soldier as Present, on Leave, Course, Sick, Duty, etc.</td></tr>
+  <tr><td>Parade State</td><td>Auto-compiled battalion-level strength report by rank and status</td></tr>
+  <tr><td>Leave Management</td><td>Record and track Annual Leave, Casual Leave, Special Leave, etc.</td></tr>
+  <tr><td>Duty Roster</td><td>Track Guard, Sentry, QRT, and other duty assignments</td></tr>
+  <tr><td>Course Tracking</td><td>Log soldiers attending training courses with dates and locations</td></tr>
+  <tr><td>Sick Reports</td><td>Record soldiers at Sick Report, MH (Military Hospital), OPD, etc.</td></tr>
+  <tr><td>Nominal Roll</td><td>Complete personnel database with personal &amp; service details</td></tr>
+  <tr><td>Approvals</td><td>Two-step workflow: clerks enter data, admins approve it</td></tr>
+  <tr><td>Reports &amp; PDF Export</td><td>Official parade state, analytics, and exportable PDFs</td></tr>
+  <tr><td>Archive</td><td>Historical parade states searchable by date</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 2 -->
+<h1>2. Why Was This Built? (Agenda &amp; Problem Statement)</h1>
+<h2>The Problem (Before This System)</h2>
+<ul>
+  <li>Company Havildar Majors (CHMs) maintained physical registers — error-prone and time-consuming</li>
+  <li>Parade state compilation required physically collecting data from multiple companies</li>
+  <li>No centralised strength data — CO had to wait for physical papers every morning</li>
+  <li>Leave records, course attendance, and sick reports were tracked in separate registers</li>
+  <li>Historical data retrieval required searching physical files</li>
+  <li>No accountability trail — it was impossible to know who entered or changed a record</li>
+</ul>
+<h2>The Solution (This System)</h2>
+<ul>
+  <li>Each company clerk enters data on their own computer, simultaneously</li>
+  <li>The system automatically consolidates all companies into one battalion parade state</li>
+  <li>CO and Adjutant see real-time approved data on their screens</li>
+  <li>All records are stored in a database with timestamps and user attribution</li>
+  <li>Historical data is searchable by date instantly</li>
+  <li>Approval workflow ensures data integrity before the parade state is finalised</li>
+</ul>
+<h2>Design Goals</h2>
+<ol>
+  <li><strong>Simplicity:</strong> Clerks with basic computer skills can use it without training</li>
+  <li><strong>Security:</strong> Role-based access — each user sees only what they need</li>
+  <li><strong>Speed:</strong> Attendance entry and parade state compilation in under 5 minutes</li>
+  <li><strong>Accuracy:</strong> Approval workflow prevents unauthorised or erroneous entries</li>
+  <li><strong>Resilience:</strong> Runs on local LAN (no internet dependency for core functions)</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- SECTION 3 -->
+<h1>3. Technology Stack &amp; Prerequisites</h1>
+<h2>What Technologies Are Used?</h2>
+<table>
+  <tr><th>Layer</th><th>Technology</th><th>Why This Was Chosen</th></tr>
+  <tr><td>Web Server</td><td>Apache (via XAMPP)</td><td>Free, easy to set up on Windows, standard for PHP</td></tr>
+  <tr><td>Backend Language</td><td>PHP 7+</td><td>Runs server-side, handles DB queries, form processing</td></tr>
+  <tr><td>Database</td><td>MySQL (via XAMPP)</td><td>Free, reliable relational DB; pairs naturally with PHP</td></tr>
+  <tr><td>Frontend</td><td>HTML5, CSS3, Vanilla JavaScript</td><td>No framework needed; keeps it simple and fast</td></tr>
+  <tr><td>PHP DB Driver</td><td>MySQLi (procedural)</td><td>Comes built-in with PHP, uses prepared statements</td></tr>
+  <tr><td>Fonts</td><td>Google Fonts (Fira Sans, Fira Code)</td><td>Professional look; Fira Code for numeric/monospace data</td></tr>
+  <tr><td>PDF Export</td><td>Custom PHP PDF writer</td><td>No external library dependency; lightweight</td></tr>
+  <tr><td>Package Manager</td><td>None</td><td>Zero dependencies — runs straight out of the box</td></tr>
+</table>
+
+<h2>What You Need Installed</h2>
+<ol>
+  <li><strong>XAMPP</strong> — Download from apachefriends.org. Installs Apache, MySQL, and PHP together.</li>
+  <li><strong>A web browser</strong> — Chrome, Firefox, or Edge (modern version)</li>
+  <li><strong>A code editor</strong> — VS Code recommended</li>
+  <li><strong>No other dependencies</strong> — No npm, no composer, no pip (except the optional Python seed generator)</li>
+</ol>
+
+<div class="info-box">
+  <strong>Key architecture fact:</strong> This is a traditional MVC-ish PHP application with <em>no framework</em>.
+  Each PHP file handles its own routing, DB query, and HTML rendering. If you know basic PHP and SQL, you can read
+  and modify any file independently.
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 4 -->
+<h1>4. Project Folder &amp; File Structure</h1>
+<p>The project lives at: <code>C:\xampp\htdocs\BN_Parade_State_Automation\</code></p>
+<p>Here is the full folder tree with every file explained:</p>
+
+<h2>Root Level Files</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>index.php</code></td><td>Public homepage. Shows Infantry School branding, image carousel, news ticker, Army command links. Visible to anyone without logging in.</td></tr>
+  <tr><td><code>dashboard.php</code></td><td>The main hub after login. Shows stat cards (total personnel, companies, present today, pending approvals) and role-specific module buttons.</td></tr>
+  <tr><td><code>profile.php</code></td><td>Allows logged-in users to update their security question/answer and change their password. Protected by CSRF.</td></tr>
+  <tr><td><code>password_management.php</code></td><td>Dedicated password change module — an extension of profile.php for standalone password operations.</td></tr>
+  <tr><td><code>logout.php</code></td><td>Destroys the session and redirects to login. No HTML — just PHP logic.</td></tr>
+  <tr><td><code>BN_PARADE_STATE_USER_GUIDE.md</code></td><td>738-line markdown user guide covering setup, features, daily workflows, and troubleshooting. For end-users.</td></tr>
+</table>
+
+<h2>auth/ — Authentication (3 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>auth/login.php</code></td><td>Login form. Validates credentials with bcrypt. Rate-limits to 5 attempts before a 15-minute lockout. Regenerates session ID on success for security.</td></tr>
+  <tr><td><code>auth/reset_password.php</code></td><td>Forgot password flow. User enters username, answers their security question, then sets a new password. No email needed.</td></tr>
+  <tr><td><code>auth/register.php</code></td><td>Registration page (admin-managed). Public visitors are redirected to request access rather than self-registering.</td></tr>
+</table>
+
+<h2>config/ — Database Configuration (1 file)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>config/db.php</code></td><td>The single database connection file. Creates a MySQLi connection to <code>localhost</code>, user <code>root</code>, empty password, database <code>bn_parade_state_db</code>. Every other PHP file includes this file to get the DB connection.</td></tr>
+</table>
+<pre>// config/db.php — the most important file in the project
+$conn = mysqli_connect("localhost", "root", "", "bn_parade_state_db");
+mysqli_set_charset($conn, "utf8mb4");</pre>
+
+<h2>includes/ — Shared UI Components (3 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>includes/head_meta.php</code></td><td>Shared HTML &lt;head&gt; section included at the top of every page. Contains the CSS link, Google Fonts, dark/light theme toggle JavaScript, and toast notification system.</td></tr>
+  <tr><td><code>includes/csrf.php</code></td><td>Generates and verifies CSRF tokens. Every form POST goes through this. Token stored in session, rotated after each use.</td></tr>
+  <tr><td><code>includes/topbar.php</code></td><td>The navigation bar included on every protected page. Shows the brand logo, the user's name and role badge (colour-coded), and a role-specific sidebar menu with links.</td></tr>
+</table>
+
+<h2>admin/ — Administration Module (9 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>admin/create_user.php</code></td><td>Create new portal users. Admin assigns a role, company (for clerks), username, and initial password.</td></tr>
+  <tr><td><code>admin/manage_users.php</code></td><td>Edit existing users. Change roles, company assignments, or deactivate accounts. Displays a data table of all users.</td></tr>
+  <tr><td><code>admin/company_master.php</code></td><td>Add or deactivate battalion companies (e.g. HQ, A Coy, B Coy). Short names are auto-capitalised.</td></tr>
+  <tr><td><code>admin/platoon_section_master.php</code></td><td>Define platoons and sections within companies. Filtered by company dropdown.</td></tr>
+  <tr><td><code>admin/manage_soldiers.php</code></td><td>Full nominal roll CRUD (Create, Read, Update, Delete). Manages all 12+ fields per soldier. Includes PDF export of the nominal roll.</td></tr>
+  <tr><td><code>admin/nominal_roll_analytics.php</code></td><td>Visual donut chart showing personnel distribution across companies with count and percentage per company.</td></tr>
+  <tr><td><code>admin/approve_attendance.php</code></td><td>Admin review screen. Shows all pending attendance records submitted by clerks. Admin can Approve or Reject each record.</td></tr>
+  <tr><td><code>admin/approve_leave.php</code></td><td>Same as above but for leave records. Approve or reject leave applications submitted by clerks.</td></tr>
+  <tr><td><code>admin/notification_settings.php</code></td><td>System-level notification preference configuration for the admin.</td></tr>
+</table>
+
+<h2>clerk/ — Company Clerk Data Entry (7 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>clerk/daily_attendance.php</code></td><td>The most-used page. Clerk marks each soldier in their company with a status: Present, Absent, Leave, Course, Sick Report, MH, TD, Duty, Attached Out, or Other. Includes a remarks field. Shows live count summary. Approved rows are greyed out (read-only).</td></tr>
+  <tr><td><code>clerk/leave_entry.php</code></td><td>Record leave for a soldier. Selects leave type (AL, CL, Maternity, etc.), from/to dates, and remarks. Submitted for admin approval.</td></tr>
+  <tr><td><code>clerk/duty_roster.php</code></td><td>Assign a soldier to a duty. Types include Guard, Sentry, QRT, Office Duty, Special Task, Other. Includes duty time and location.</td></tr>
+  <tr><td><code>clerk/course_entry.php</code></td><td>Log a soldier attending a training course. Captures course name, location, from/to dates.</td></tr>
+  <tr><td><code>clerk/sick_report.php</code></td><td>Record a soldier going to Sick Report, MH, OPD, or given Rest. Captures expected return date.</td></tr>
+  <tr><td><code>clerk/company_strength.php</code></td><td>View-only summary of the clerk's company. Shows total posted, present, and absent-by-reason breakdown.</td></tr>
+  <tr><td><code>clerk/my_activity.php</code></td><td>Audit log for the clerk. Shows all entries made by that clerk — useful for self-review and corrections.</td></tr>
+</table>
+
+<h2>adjt_sa/ — Adjutant / SA Operations (4 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>adjt_sa/battalion_parade_state.php</code></td><td>Master parade state view. Shows real-time company-wise consolidation with pending approval count. Includes a date picker to view other dates. Has an Approve button when records are pending.</td></tr>
+  <tr><td><code>adjt_sa/approve_parade_state.php</code></td><td>Formal approval screen for the parade state. Once approved, the state is locked and moved to the archive.</td></tr>
+  <tr><td><code>adjt_sa/manpower_shortages.php</code></td><td>Record manpower shortfalls per company with priority level: Normal, Urgent, or Critical.</td></tr>
+  <tr><td><code>adjt_sa/duty_overview.php</code></td><td>Battalion-wide view of all duty assignments across companies for a given date.</td></tr>
+</table>
+
+<h2>reports/ — Reporting &amp; Exports (7 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>reports/daily_parade_state.php</code></td><td>Official parade state in the Army format. Grid with 18 rank columns and 19 status rows (AUTH STR, POSTED, AL, CL, MH, Course, AWL, etc.).</td></tr>
+  <tr><td><code>reports/coy_strength_summary.php</code></td><td>Company-by-company breakdown: posted strength, present strength, absent by reason.</td></tr>
+  <tr><td><code>reports/leave_course_duty_report.php</code></td><td>Filtered list of all soldiers currently on Leave, Course, or Duty with dates and location.</td></tr>
+  <tr><td><code>reports/attendance_analytics.php</code></td><td>Trend charts. Attendance percentage by company and month-on-month trends.</td></tr>
+  <tr><td><code>reports/archive.php</code></td><td>Historical record browser. Select any past date to view the approved parade state for that day.</td></tr>
+  <tr><td><code>reports/download_pdf.php</code></td><td>PDF export handler. Custom low-level PDF object generation (no TCPDF or mPDF library). Produces the official parade state as a downloadable PDF.</td></tr>
+  <tr><td><code>reports/download_excel.php</code></td><td>Excel export placeholder. Currently a stub — the feature is referenced but not fully implemented.</td></tr>
+</table>
+
+<h2>user/ — Read-Only User Views (2 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>user/view_parade_state.php</code></td><td>Read-only parade state for CO, 2IC, and OCs. Shows company-wise totals (total, present, absent, leave, course, duty, sick, TD) with date picker.</td></tr>
+  <tr><td><code>user/view_reports.php</code></td><td>Read-only report navigation for the USER role. Links to available reports without any edit capability.</td></tr>
+</table>
+
+<h2>database/ — SQL &amp; Data Files (8 files)</h2>
+<table>
+  <tr><th>File</th><th>What It Does</th></tr>
+  <tr><td><code>database/bn_full_setup.sql</code></td><td><strong>Primary import file.</strong> Drops and recreates the entire database from scratch. Creates all 11 tables, inserts 6 companies, 4 users, 120 soldiers, and 30 days of sample attendance/leave/duty data. Use this for fresh setup.</td></tr>
+  <tr><td><code>database/bn_parade_state.sql</code></td><td>Original base schema — tables only, no seed data. An older reference version.</td></tr>
+  <tr><td><code>database/bn_import_data.sql</code></td><td>Data-only file. Requires the schema to already exist. Use to re-seed data without recreating tables.</td></tr>
+  <tr><td><code>database/bn_seed_attendance.sql</code></td><td>Attendance seed data only.</td></tr>
+  <tr><td><code>database/bn_seed_other.sql</code></td><td>Leave, duty, course, sick report, and manpower shortage seed data.</td></tr>
+  <tr><td><code>database/nominal_roll_personnel.sql</code></td><td>120 sample soldier records with full personal and service details.</td></tr>
+  <tr><td><code>database/generate_import_data.py</code></td><td>Python script to regenerate the SQL seed files. Used during development to refresh test data.</td></tr>
+</table>
+
+<h2>assets/ — Static Files</h2>
+<table>
+  <tr><th>File/Folder</th><th>What It Does</th></tr>
+  <tr><td><code>assets/css/style.css</code></td><td>The single 54 KB stylesheet for the entire application. Contains all themes, components, responsive layout, and dark/light mode.</td></tr>
+  <tr><td><code>assets/js/script.js</code></td><td>Utility JavaScript — date defaults, form helpers.</td></tr>
+  <tr><td><code>assets/js/slider.js</code></td><td>Image carousel logic for the homepage infantry parade photos.</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 5 -->
+<h1>5. Database Design (All 11 Tables Explained)</h1>
+<p>The database is named <code>bn_parade_state_db</code>. It uses UTF-8 MB4 character set (supports all Unicode characters including regional Indian scripts).</p>
+
+<h2>companies</h2>
+<p>Stores the battalion's sub-units (companies). Active companies appear in all dropdowns throughout the system.</p>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Unique company identifier</td></tr>
+  <tr><td>company_name</td><td>VARCHAR(100)</td><td>Full name e.g. "A Company"</td></tr>
+  <tr><td>short_name</td><td>VARCHAR(20)</td><td>Short code e.g. "A COY"</td></tr>
+  <tr><td>is_active</td><td>TINYINT</td><td>1=active, 0=deactivated</td></tr>
+</table>
+<p><strong>Default data:</strong> HQ Company, A Company, B Company, C Company, D Company, SP Company</p>
+
+<h2>platoons</h2>
+<p>Defines platoons and sections within companies. Used for organisational grouping of soldiers.</p>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Unique platoon identifier</td></tr>
+  <tr><td>company_id</td><td>INT FK</td><td>Parent company</td></tr>
+  <tr><td>platoon_name</td><td>VARCHAR(100)</td><td>e.g. "1 Platoon"</td></tr>
+  <tr><td>section_name</td><td>VARCHAR(100) NULL</td><td>e.g. "Alpha Section"</td></tr>
+  <tr><td>is_active</td><td>TINYINT</td><td>1=active, 0=deactivated</td></tr>
+</table>
+
+<h2>users</h2>
+<p>All portal users. Passwords are bcrypt-hashed (never stored in plain text).</p>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Unique user identifier</td></tr>
+  <tr><td>name</td><td>VARCHAR(100)</td><td>Display name</td></tr>
+  <tr><td>username</td><td>VARCHAR(50) UNIQUE</td><td>Login username</td></tr>
+  <tr><td>password</td><td>VARCHAR(255)</td><td>Bcrypt hash of password</td></tr>
+  <tr><td>security_question</td><td>VARCHAR(255) NULL</td><td>Self-service reset question</td></tr>
+  <tr><td>security_answer</td><td>VARCHAR(255) NULL</td><td>Bcrypt hash of the answer</td></tr>
+  <tr><td>role</td><td>ENUM</td><td>ADMIN, ADJT_SA, CHM_CLERK, or USER</td></tr>
+  <tr><td>army_no</td><td>VARCHAR(50) NULL</td><td>Army service number if applicable</td></tr>
+  <tr><td>company_id</td><td>INT FK NULL</td><td>For CHM_CLERK: restricts them to their company</td></tr>
+  <tr><td>is_active</td><td>TINYINT</td><td>1=active account, 0=disabled</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMP</td><td>Account creation time</td></tr>
+</table>
+
+<h2>personnel (Nominal Roll)</h2>
+<p>The central soldier database. Every soldier in the battalion has a record here. This is referred to as the <em>nominal roll</em> in Army parlance.</p>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Internal database ID</td></tr>
+  <tr><td>army_no</td><td>VARCHAR(50) UNIQUE</td><td>Official Army Number (e.g. "15492376P")</td></tr>
+  <tr><td>rank_name</td><td>VARCHAR(50)</td><td>Rank (e.g. Sep, Nk, Hav, Nb Sub, Sub, Sub Maj)</td></tr>
+  <tr><td>full_name</td><td>VARCHAR(120)</td><td>Soldier's full name</td></tr>
+  <tr><td>company_id</td><td>INT FK</td><td>Which company the soldier belongs to</td></tr>
+  <tr><td>platoon_id</td><td>INT FK NULL</td><td>Which platoon (optional)</td></tr>
+  <tr><td>trade</td><td>VARCHAR(80) NULL</td><td>Military trade/specialisation</td></tr>
+  <tr><td>service_status</td><td>ENUM</td><td>Serving, Attached Out, Posted Out, or Retired</td></tr>
+  <tr><td>dob</td><td>DATE NULL</td><td>Date of birth</td></tr>
+  <tr><td>date_of_enrolment</td><td>DATE NULL</td><td>Date joined the Army</td></tr>
+  <tr><td>blood_group</td><td>VARCHAR(5) NULL</td><td>e.g. A+, B-, O+, AB+</td></tr>
+  <tr><td>home_state</td><td>VARCHAR(80) NULL</td><td>Home state of origin</td></tr>
+  <tr><td>mobile_no</td><td>VARCHAR(15) NULL</td><td>Contact number</td></tr>
+  <tr><td>marital_status</td><td>ENUM</td><td>Married, Single, or Widowed</td></tr>
+  <tr><td>med_cat</td><td>ENUM</td><td>Medical Category: SHAPE-1 (fully fit), AYE, BEE, CEE, or LOW MEDICAL CATEGORY</td></tr>
+  <tr><td>al_balance</td><td>INT</td><td>Annual Leave days remaining</td></tr>
+  <tr><td>cl_balance</td><td>INT</td><td>Casual Leave days remaining</td></tr>
+  <tr><td>bn_team</td><td>VARCHAR(60) NULL</td><td>Team assignment: Assault, Recce, Support, Admin, Specialist, or HQ</td></tr>
+  <tr><td>emergency_contact</td><td>VARCHAR(15) NULL</td><td>Emergency contact number</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMP</td><td>Record creation timestamp</td></tr>
+</table>
+
+<h2>attendance</h2>
+<p>One record per soldier per day. This is the core transactional table — everything in the parade state derives from here.</p>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Unique attendance record ID</td></tr>
+  <tr><td>personnel_id</td><td>INT FK</td><td>Which soldier</td></tr>
+  <tr><td>attendance_date</td><td>DATE</td><td>Which date</td></tr>
+  <tr><td>status</td><td>ENUM</td><td>Present, Absent, Leave, Course, Sick Report, MH, TD, Duty, Attached Out, Other</td></tr>
+  <tr><td>remarks</td><td>TEXT NULL</td><td>Free text (leave station, hospital name, course location, etc.)</td></tr>
+  <tr><td>entered_by</td><td>INT FK NULL</td><td>Which user (clerk) entered this record</td></tr>
+  <tr><td>approval_status</td><td>ENUM</td><td>Pending, Approved, or Rejected</td></tr>
+  <tr><td>approved_by</td><td>INT FK NULL</td><td>Which admin approved it</td></tr>
+  <tr><td>approved_at</td><td>DATETIME NULL</td><td>When it was approved</td></tr>
+  <tr><td>created_at</td><td>TIMESTAMP</td><td>When the record was first entered</td></tr>
+</table>
+<p><strong>Unique constraint:</strong> (personnel_id, attendance_date) — guarantees only one record per soldier per day.</p>
+
+<h2>leave_records</h2>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Leave record ID</td></tr>
+  <tr><td>personnel_id</td><td>INT FK</td><td>Which soldier</td></tr>
+  <tr><td>leave_type</td><td>VARCHAR(80)</td><td>AL, CL, Maternity, Sick, Special, Earned, Ex-India</td></tr>
+  <tr><td>from_date / to_date</td><td>DATE</td><td>Leave period</td></tr>
+  <tr><td>approval_status</td><td>ENUM</td><td>Pending, Approved, Rejected</td></tr>
+  <tr><td>return_status</td><td>ENUM</td><td>Not Returned or Returned</td></tr>
+  <tr><td>remarks</td><td>TEXT NULL</td><td>Notes</td></tr>
+  <tr><td>entered_by</td><td>INT FK NULL</td><td>Clerk who entered this</td></tr>
+</table>
+
+<h2>duty_roster</h2>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Duty record ID</td></tr>
+  <tr><td>personnel_id</td><td>INT FK</td><td>Which soldier</td></tr>
+  <tr><td>duty_type</td><td>ENUM</td><td>Guard, Sentry, QRT, Office Duty, Special Task, Other</td></tr>
+  <tr><td>duty_date</td><td>DATE</td><td>Date of duty</td></tr>
+  <tr><td>duty_time</td><td>VARCHAR(50) NULL</td><td>e.g. "0600–1800 hrs"</td></tr>
+  <tr><td>location</td><td>VARCHAR(120) NULL</td><td>Where the duty is</td></tr>
+  <tr><td>remarks</td><td>TEXT NULL</td><td>Additional notes</td></tr>
+  <tr><td>entered_by</td><td>INT FK NULL</td><td>Clerk who entered this</td></tr>
+</table>
+
+<h2>course_records</h2>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Course record ID</td></tr>
+  <tr><td>personnel_id</td><td>INT FK</td><td>Which soldier</td></tr>
+  <tr><td>course_name</td><td>VARCHAR(150)</td><td>Name of the course/cadre</td></tr>
+  <tr><td>location</td><td>VARCHAR(150) NULL</td><td>Where the course is held</td></tr>
+  <tr><td>from_date / to_date</td><td>DATE</td><td>Course duration</td></tr>
+  <tr><td>remarks</td><td>TEXT NULL</td><td>Notes</td></tr>
+  <tr><td>entered_by</td><td>INT FK NULL</td><td>Clerk who entered this</td></tr>
+</table>
+
+<h2>sick_reports</h2>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Sick report ID</td></tr>
+  <tr><td>personnel_id</td><td>INT FK</td><td>Which soldier</td></tr>
+  <tr><td>report_date</td><td>DATE</td><td>Date of sick report</td></tr>
+  <tr><td>category</td><td>ENUM</td><td>Sick Report, MH (Military Hospital), OPD, Rest Advised</td></tr>
+  <tr><td>expected_return</td><td>DATE NULL</td><td>Anticipated return to duty</td></tr>
+  <tr><td>remarks</td><td>TEXT NULL</td><td>Diagnosis or additional notes</td></tr>
+  <tr><td>entered_by</td><td>INT FK NULL</td><td>Clerk who entered this</td></tr>
+</table>
+
+<h2>manpower_shortages</h2>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Shortage record ID</td></tr>
+  <tr><td>company_id</td><td>INT FK</td><td>Which company has the shortage</td></tr>
+  <tr><td>shortage_date</td><td>DATE</td><td>Date of shortfall</td></tr>
+  <tr><td>required_strength</td><td>INT</td><td>How many were needed</td></tr>
+  <tr><td>available_strength</td><td>INT</td><td>How many were actually available</td></tr>
+  <tr><td>priority</td><td>ENUM</td><td>Normal, Urgent, or Critical</td></tr>
+  <tr><td>remarks</td><td>TEXT NULL</td><td>Reason or context</td></tr>
+  <tr><td>marked_by</td><td>INT FK NULL</td><td>Who recorded this shortage</td></tr>
+</table>
+
+<h2>activity_logs</h2>
+<p>Audit trail. Every significant action (login, data entry, approval) is logged here.</p>
+<table>
+  <tr><th>Column</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td>id</td><td>INT PK AUTO</td><td>Log entry ID</td></tr>
+  <tr><td>user_id</td><td>INT FK NULL</td><td>Who did the action</td></tr>
+  <tr><td>action_tag</td><td>VARCHAR(100) NULL</td><td>Code label e.g. ATTENDANCE_ENTRY, USER_CREATED</td></tr>
+  <tr><td>description</td><td>TEXT NULL</td><td>Human-readable description of what happened</td></tr>
+  <tr><td>action_date</td><td>DATETIME</td><td>When it happened</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 6 -->
+<h1>6. User Roles &amp; What Each Role Can Do</h1>
+<p>Access control is enforced at the top of every PHP file. If a user's role is not in the allowed list, they are immediately redirected to login.</p>
+
+<table>
+  <tr><th>Role</th><th>Badge Colour</th><th>Represents</th><th>What They Can Do</th></tr>
+  <tr>
+    <td><strong>ADMIN</strong></td>
+    <td>Red</td>
+    <td>System Administrator (IT admin or Adjutant's assistant)</td>
+    <td>Everything: create/manage users, manage companies and platoons, manage nominal roll, approve attendance and leave, view all reports, change notification settings</td>
+  </tr>
+  <tr>
+    <td><strong>ADJT_SA</strong></td>
+    <td>Blue</td>
+    <td>Adjutant or Subedar Adjutant</td>
+    <td>View and approve battalion parade state, view manpower shortages, duty overview, access all reports. Cannot enter daily attendance or manage users.</td>
+  </tr>
+  <tr>
+    <td><strong>CHM_CLERK</strong></td>
+    <td>Olive Green</td>
+    <td>Company Havildar Major or Company Clerk</td>
+    <td>Enter daily attendance, leave, duty, course, and sick reports — <em>but only for their assigned company</em>. View their activity log. Cannot see other companies or reports.</td>
+  </tr>
+  <tr>
+    <td><strong>USER</strong></td>
+    <td>Gold</td>
+    <td>Commanding Officer, 2IC, Company Commanders (OCs)</td>
+    <td>View-only access to parade state and reports. Cannot enter or change any data.</td>
+  </tr>
+</table>
+
+<h2>How Role Checking Works in Code</h2>
+<p>Every protected PHP file starts with this pattern:</p>
+<pre>session_start();
+if (!isset($_SESSION['role']) || !in_array($_SESSION['role'], ['ADMIN', 'ADJT_SA'])) {
+    header("Location: ../auth/login.php");
+    exit();
+}</pre>
+<p>The allowed roles array changes per file. For example, <code>daily_attendance.php</code> only allows <code>CHM_CLERK</code>, while <code>manage_users.php</code> only allows <code>ADMIN</code>.</p>
+
+<h2>Clerk Company Restriction</h2>
+<p>For clerks, their company restriction is enforced via the session variable:</p>
+<pre>$clerkCompanyId = $_SESSION['company_id'];
+// All queries include:
+WHERE p.company_id = $clerkCompanyId</pre>
+<p>This ensures a clerk from A Company can never see or enter data for B Company soldiers.</p>
+
+<div class="page-break"></div>
+
+<!-- SECTION 7 -->
+<h1>7. How the Application Works (Step-by-Step Workflows)</h1>
+
+<h2>Daily Morning Workflow (The Core Use Case)</h2>
+
+<h3>Step 1: Company Clerk Logs In (0700–0800 hrs)</h3>
+<ol>
+  <li>Clerk opens browser, goes to <code>http://localhost/BN_Parade_State_Automation</code></li>
+  <li>Clicks "Login", enters username and password</li>
+  <li>System verifies credentials (bcrypt), creates session, redirects to Dashboard</li>
+</ol>
+
+<h3>Step 2: Clerk Enters Daily Attendance</h3>
+<ol>
+  <li>From dashboard, clerk clicks "Company Entries" → "Daily Attendance"</li>
+  <li>Date defaults to today. A table shows all soldiers in the clerk's company</li>
+  <li>For each soldier, the clerk selects one status from the dropdown (Present, Leave, Course, etc.)</li>
+  <li>For non-Present statuses, clerk types a remark (e.g., leave station, hospital name)</li>
+  <li>At the bottom, a live counter shows totals by status (e.g., "Present: 45, Leave: 3, Sick: 2")</li>
+  <li>Clerk clicks "Save Attendance" — records saved to database with <code>approval_status = 'Pending'</code></li>
+</ol>
+
+<h3>Step 3: Clerk Enters Other Records (If Applicable)</h3>
+<ul>
+  <li>Leave Entry: formal leave application for any soldier going on leave</li>
+  <li>Duty Roster: assign soldiers to Guard, Sentry, or QRT duties</li>
+  <li>Course Entry: log soldiers attending training courses</li>
+  <li>Sick Report: document soldiers reported sick</li>
+</ul>
+
+<h3>Step 4: Admin Approves Attendance</h3>
+<ol>
+  <li>Admin logs in, Dashboard shows "Pending Approvals: X"</li>
+  <li>Goes to Approvals → Approve Attendance</li>
+  <li>Reviews each pending record, clicks Approve or Reject</li>
+  <li>Approved records are locked — clerks can no longer edit them</li>
+</ol>
+
+<h3>Step 5: Adjutant Compiles &amp; Approves Parade State</h3>
+<ol>
+  <li>Adjutant logs in after approval, goes to Parade State Control → Battalion Parade State</li>
+  <li>System shows auto-compiled company-wise summary (based on approved attendance)</li>
+  <li>Adjutant verifies totals and clicks "Approve Parade State"</li>
+  <li>State is locked and archived with today's date</li>
+</ol>
+
+<h3>Step 6: CO Views Parade State</h3>
+<ol>
+  <li>CO (USER role) opens the portal and views the approved parade state</li>
+  <li>Sees total battalion strength: present, absent, leave, course, sick, etc.</li>
+  <li>Can print or download PDF for the daily orders file</li>
+</ol>
+
+<h2>How the Parade State Is Calculated</h2>
+<p>The system queries the attendance table and maps each status to a row in the official parade state format:</p>
+<table>
+  <tr><th>Attendance Status</th><th>Parade State Row</th></tr>
+  <tr><td>Present</td><td>Total Present</td></tr>
+  <tr><td>Absent</td><td>AWL/OSL (Absent Without Leave)</td></tr>
+  <tr><td>Leave</td><td>AL or CL row (based on leave type)</td></tr>
+  <tr><td>Course</td><td>Course/Cadre row</td></tr>
+  <tr><td>Sick Report / MH</td><td>MH (Military Hospital) row</td></tr>
+  <tr><td>TD (Temporary Duty)</td><td>Temp Duty / Att Duty / Fwd/Op Area (based on remarks)</td></tr>
+  <tr><td>Duty</td><td>Counted under In Unit (present for strength)</td></tr>
+  <tr><td>Attached Out</td><td>Posting Out / Local Att row</td></tr>
+  <tr><td>Other</td><td>Other Out row</td></tr>
+</table>
+
+<h2>Password Reset Workflow (Self-Service)</h2>
+<ol>
+  <li>User clicks "Forgot Password" on login page</li>
+  <li>Enters username</li>
+  <li>System fetches and displays their stored security question</li>
+  <li>User types their answer — system verifies against bcrypt hash</li>
+  <li>If correct, user enters and confirms new password</li>
+  <li>New bcrypt hash saved to database</li>
+  <li>Redirected to login with success message</li>
+</ol>
+
+<div class="page-break"></div>
+
+<!-- SECTION 8 -->
+<h1>8. Security Features</h1>
+<p>This section explains every security measure built into the system, and how it works.</p>
+
+<h2>1. Password Hashing (bcrypt)</h2>
+<p>Passwords are never stored in plain text. PHP's built-in bcrypt is used:</p>
+<pre>// Storing a password:
+$hash = password_hash($plaintext, PASSWORD_DEFAULT);
+
+// Verifying a password:
+if (password_verify($inputPassword, $storedHash)) { ... }</pre>
+<p>Even if someone reads the database, they cannot reverse the hash to get the original password.</p>
+
+<h2>2. CSRF Protection (Cross-Site Request Forgery)</h2>
+<p>Every form in the system includes a hidden CSRF token. This prevents malicious websites from submitting forms on a user's behalf:</p>
+<pre>// Generate token (in includes/csrf.php):
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+// In HTML form:
+&lt;input type="hidden" name="csrf_token" value="&lt;?= $_SESSION['csrf_token'] ?&gt;"&gt;
+
+// On POST — verify before processing:
+if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) { die("CSRF"); }</pre>
+
+<h2>3. Rate Limiting (Login Brute Force Protection)</h2>
+<p>After 5 failed login attempts, the account is locked for 15 minutes. State is stored in a temp JSON file keyed by username. This prevents automated password-guessing attacks.</p>
+
+<h2>4. SQL Injection Prevention (Prepared Statements)</h2>
+<p>All database queries use MySQLi prepared statements. User input is never directly interpolated into SQL strings:</p>
+<pre>// Safe — user input goes into '?' placeholder:
+$stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
+mysqli_stmt_bind_param($stmt, "s", $username);
+mysqli_stmt_execute($stmt);</pre>
+
+<h2>5. XSS Prevention (Output Escaping)</h2>
+<p>All data from the database or user input that is displayed in HTML is passed through <code>htmlspecialchars()</code> to prevent script injection:</p>
+<pre>echo htmlspecialchars($row['full_name'], ENT_QUOTES, 'UTF-8');</pre>
+
+<h2>6. Session Security</h2>
+<ul>
+  <li>Session ID is regenerated on login (<code>session_regenerate_id(true)</code>) to prevent session fixation attacks</li>
+  <li>Session is completely destroyed on logout</li>
+  <li>All protected pages check session role at the very top before any output</li>
+</ul>
+
+<h2>7. Security Questions for Password Reset</h2>
+<p>Security question answers are also bcrypt-hashed — they are treated with the same security as passwords. A compromised database cannot be used to reset passwords without knowing the answer.</p>
+
+<h2>8. Approval Workflow as Data Integrity Layer</h2>
+<p>The approval workflow is not just a business process — it is a security control. Once attendance is approved, it cannot be modified by the clerk. This prevents after-the-fact data manipulation.</p>
+
+<div class="page-break"></div>
+
+<!-- SECTION 9 -->
+<h1>9. UI/UX Design</h1>
+
+<h2>Design Philosophy</h2>
+<p>The UI is designed to feel official, professional, and military-appropriate. The colour palette is inspired by the Indian Army — deep navy, saffron/gold accents, and olive tones for operational data.</p>
+
+<h2>Colour Palette</h2>
+<table>
+  <tr><th>Colour</th><th>Hex</th><th>Used For</th></tr>
+  <tr><td>Deep Navy (Primary)</td><td>#0b1a2e</td><td>Page background (dark mode), headers</td></tr>
+  <tr><td>Saffron/Gold (Accent)</td><td>#c9a227</td><td>Borders, highlights, buttons, news ticker</td></tr>
+  <tr><td>Red (Admin)</td><td>#c62828</td><td>ADMIN role badge</td></tr>
+  <tr><td>Blue (Adjutant)</td><td>#1565c0</td><td>ADJT_SA role badge</td></tr>
+  <tr><td>Olive Green (Clerk)</td><td>#558b2f</td><td>CHM_CLERK role badge</td></tr>
+  <tr><td>Amber/Gold (User)</td><td>#f57f17</td><td>USER role badge</td></tr>
+  <tr><td>Light (Background)</td><td>#f9f9f9</td><td>Page background (light mode)</td></tr>
+</table>
+
+<h2>Dark Mode / Light Mode Toggle</h2>
+<p>Users can switch between dark and light themes using a sun/moon icon button in the top navigation bar. The preference is stored in the browser's <code>localStorage</code> under the key <code>bnps_theme</code> — so it persists between sessions without needing a database entry.</p>
+<pre>// JavaScript in head_meta.php:
+const savedTheme = localStorage.getItem('bnps_theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+// CSS uses CSS variables per theme:
+[data-theme="dark"] { --bg-color: #0b1a2e; --text-color: #e5e5e5; }
+[data-theme="light"] { --bg-color: #f9f9f9; --text-color: #2c3e50; }</pre>
+
+<h2>Typography</h2>
+<ul>
+  <li><strong>Fira Sans</strong> — Used for headings, labels, navigation. Clean and professional.</li>
+  <li><strong>Fira Code</strong> — Monospace font for all numeric data (attendance counts, strength figures, Army numbers). Makes numbers easier to read and align in tables.</li>
+</ul>
+
+<h2>Page Layout Patterns</h2>
+<table>
+  <tr><th>Page Type</th><th>Layout Description</th></tr>
+  <tr><td>Homepage (index.php)</td><td>2-column layout: left = image carousel + Army commands grid; right = news, notices, links cards</td></tr>
+  <tr><td>Dashboard</td><td>Stat cards row at top; module cards grid below (responsive 3–4 columns)</td></tr>
+  <tr><td>Data Entry Pages</td><td>Topbar + left sidebar + main content area with form or table</td></tr>
+  <tr><td>Report Pages</td><td>Topbar + full-width data table with print/export buttons</td></tr>
+</table>
+
+<h2>Navigation Structure</h2>
+<ul>
+  <li><strong>Topbar:</strong> Brand logo on left, user name + role badge in centre-right, Profile and Logout buttons on right</li>
+  <li><strong>Sidebar:</strong> Role-specific navigation links with SVG icons; active page is highlighted</li>
+  <li><strong>Breadcrumbs:</strong> Every internal page shows its location path (e.g. Dashboard › Clerk › Daily Attendance)</li>
+</ul>
+
+<h2>Toast Notifications</h2>
+<p>Success and error messages appear as toast pop-ups in the top-right corner of the screen. They auto-dismiss after 4.5 seconds or can be closed manually. Built with vanilla JavaScript — no library needed.</p>
+
+<h2>Responsive Design</h2>
+<p>The layout adapts to mobile and tablet screen sizes using CSS flexbox and grid. Tables scroll horizontally on small screens. This allows CO-level users to check the parade state on a phone if needed.</p>
+
+<h2>Accessibility</h2>
+<ul>
+  <li>ARIA roles and labels on all interactive elements</li>
+  <li>Skip-to-content links at the top of every page (keyboard navigation)</li>
+  <li>Semantic HTML tags: <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;header&gt;</code></li>
+  <li>Sufficient colour contrast ratios in both dark and light modes</li>
+  <li>Live regions for dynamic content updates (attendance counts)</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- SECTION 10 -->
+<h1>10. Setting Up the Project Locally</h1>
+
+<h2>Prerequisites Checklist</h2>
+<ul>
+  <li>Windows PC (tested on Windows 11)</li>
+  <li>XAMPP installed (Apache + MySQL + PHP 7+)</li>
+  <li>A modern browser (Chrome, Edge, Firefox)</li>
+  <li>The project folder extracted to the correct location</li>
+</ul>
+
+<h2>Step-by-Step Setup</h2>
+
+<h3>Step 1: Install XAMPP</h3>
+<ol>
+  <li>Download XAMPP from <code>apachefriends.org</code></li>
+  <li>Install it — default path is <code>C:\xampp\</code></li>
+  <li>Open XAMPP Control Panel, start <strong>Apache</strong> and <strong>MySQL</strong></li>
+  <li>Both should show green status indicators</li>
+</ol>
+
+<h3>Step 2: Place the Project Files</h3>
+<ol>
+  <li>Extract the project zip or copy the folder to: <code>C:\xampp\htdocs\BN_Parade_State_Automation\</code></li>
+  <li>The folder must be named exactly <code>BN_Parade_State_Automation</code></li>
+</ol>
+
+<h3>Step 3: Import the Database</h3>
+<ol>
+  <li>Open your browser and go to <code>http://localhost/phpmyadmin</code></li>
+  <li>Click the <strong>Import</strong> tab at the top (not inside any existing database)</li>
+  <li>Click "Choose File" and select: <code>database/bn_full_setup.sql</code></li>
+  <li>Click <strong>Go</strong></li>
+  <li>Wait for success message. The database <code>bn_parade_state_db</code> is now created with all tables and sample data</li>
+</ol>
+
+<div class="warn-box">
+  <strong>Important:</strong> Use <code>bn_full_setup.sql</code>, not any other SQL file, for the initial setup.
+  Other files are for partial updates or re-seeding only.
+</div>
+
+<h3>Step 4: Open the Application</h3>
+<ol>
+  <li>In your browser, go to: <code>http://localhost/BN_Parade_State_Automation</code></li>
+  <li>You should see the Infantry School homepage with the image carousel</li>
+  <li>Click Login and use one of the default credentials (see next section)</li>
+</ol>
+
+<h3>Step 5: First-Time Configuration</h3>
+<ol>
+  <li>Log in as <code>admin</code></li>
+  <li>Go to Profile → Change Password to set a secure password</li>
+  <li>Create real user accounts for clerks and officers via Admin → Create User</li>
+  <li>Import actual personnel data via Admin → Manage Soldiers (or via SQL)</li>
+</ol>
+
+<h2>Database Connection Details (config/db.php)</h2>
+<table>
+  <tr><th>Setting</th><th>Value</th></tr>
+  <tr><td>Hostname</td><td>localhost</td></tr>
+  <tr><td>Username</td><td>root</td></tr>
+  <tr><td>Password</td><td>(empty string)</td></tr>
+  <tr><td>Database Name</td><td>bn_parade_state_db</td></tr>
+  <tr><td>Character Set</td><td>utf8mb4</td></tr>
+</table>
+<p>To change the database password, edit <code>config/db.php</code> and update the third parameter of <code>mysqli_connect()</code>.</p>
+
+<div class="page-break"></div>
+
+<!-- SECTION 11 -->
+<h1>11. Default Login Credentials</h1>
+<div class="warn-box">
+  <strong>Change all passwords immediately after first login.</strong> These are sample credentials for development/testing only.
+</div>
+<table>
+  <tr><th>Username</th><th>Password</th><th>Role</th><th>Company Access</th></tr>
+  <tr><td>admin</td><td>Admin@123</td><td>ADMIN</td><td>All companies</td></tr>
+  <tr><td>adjt</td><td>Adjt@123</td><td>ADJT_SA</td><td>Battalion-wide (view)</td></tr>
+  <tr><td>acoy.clerk</td><td>Clerk@123</td><td>CHM_CLERK</td><td>A Company only</td></tr>
+  <tr><td>user</td><td>User@123</td><td>USER</td><td>Read-only, all companies</td></tr>
+</table>
+<p>After importing <code>bn_full_setup.sql</code>, these accounts exist immediately and are ready to use.</p>
+
+<div class="page-break"></div>
+
+<!-- SECTION 12 -->
+<h1>12. Common Errors &amp; Troubleshooting</h1>
+<table>
+  <tr><th>Error</th><th>Cause</th><th>Fix</th></tr>
+  <tr>
+    <td>Blank white page on any PHP file</td>
+    <td>PHP error with display_errors off, or missing include file</td>
+    <td>In XAMPP php.ini, set <code>display_errors = On</code>. Check includes/ folder exists.</td>
+  </tr>
+  <tr>
+    <td>"Connection refused" or DB error</td>
+    <td>MySQL not running, or wrong DB name</td>
+    <td>Start MySQL in XAMPP Control Panel. Verify <code>config/db.php</code> has correct hostname/database name.</td>
+  </tr>
+  <tr>
+    <td>Login always fails</td>
+    <td>DB not imported, or password hashes not matching</td>
+    <td>Re-import <code>bn_full_setup.sql</code>. Use exact passwords from Section 11.</td>
+  </tr>
+  <tr>
+    <td>Account locked (rate limiting)</td>
+    <td>5+ failed login attempts</td>
+    <td>Wait 15 minutes or delete the lock file in the temp directory.</td>
+  </tr>
+  <tr>
+    <td>Attendance not showing for clerk</td>
+    <td>Clerk's company_id not set in users table</td>
+    <td>Admin → Manage Users → Edit clerk → assign correct company.</td>
+  </tr>
+  <tr>
+    <td>PDF download is blank</td>
+    <td>No approved attendance data for selected date</td>
+    <td>Ensure attendance has been entered and approved for that date before exporting.</td>
+  </tr>
+  <tr>
+    <td>CSRF error on form submit</td>
+    <td>Session expired or form submitted twice</td>
+    <td>Reload the page and submit again. Extend session timeout in php.ini if needed.</td>
+  </tr>
+  <tr>
+    <td>Homepage images not loading</td>
+    <td>Images/ folder missing or wrong path</td>
+    <td>Ensure the <code>images/</code> folder is present in the project root.</td>
+  </tr>
+</table>
+
+<div class="page-break"></div>
+
+<!-- SECTION 13 -->
+<h1>13. Glossary of Military Terms Used in the Code</h1>
+<p>If you are a civilian developer encountering Army terminology for the first time, this glossary will help you understand the business domain behind the code.</p>
+<table>
+  <tr><th>Term</th><th>Meaning in Context</th></tr>
+  <tr><td>Parade State</td><td>Daily strength report showing how many soldiers are present, absent, on leave, etc. The primary output of this system.</td></tr>
+  <tr><td>BN / Battalion</td><td>The unit — typically 500–800 soldiers. Subdivided into Companies.</td></tr>
+  <tr><td>Company (Coy)</td><td>Sub-unit of ~100–150 soldiers. Led by a Major (OC). The system has HQ, A, B, C, D, and SP Companies.</td></tr>
+  <tr><td>Platoon</td><td>Sub-unit of a Company, ~30 soldiers.</td></tr>
+  <tr><td>Section</td><td>Sub-unit of a Platoon, ~10 soldiers.</td></tr>
+  <tr><td>CHM</td><td>Company Havildar Major — the senior NCO who manages company administration. The main user of the clerk module.</td></tr>
+  <tr><td>ADJT / SA</td><td>Adjutant / Subedar Adjutant — officers responsible for daily administration and discipline of the battalion.</td></tr>
+  <tr><td>CO</td><td>Commanding Officer — the battalion commander. Views the parade state but does not enter data.</td></tr>
+  <tr><td>2IC</td><td>Second-in-Command — the CO's deputy.</td></tr>
+  <tr><td>OC</td><td>Officer Commanding — the company commander (a Major).</td></tr>
+  <tr><td>Nominal Roll</td><td>The official list of all soldiers in the unit. In code, this is the <code>personnel</code> table.</td></tr>
+  <tr><td>AL / Annual Leave</td><td>30-day annual leave entitlement per year.</td></tr>
+  <tr><td>CL / Casual Leave</td><td>Short-duration leave (typically up to 10 days).</td></tr>
+  <tr><td>MH</td><td>Military Hospital — a soldier admitted to a military hospital.</td></tr>
+  <tr><td>TD / Temporary Duty</td><td>Soldier posted temporarily to another unit or location.</td></tr>
+  <tr><td>QRT</td><td>Quick Reaction Team — a duty assignment for rapid response.</td></tr>
+  <tr><td>AWL / OSL</td><td>Absent Without Leave / Over Stayed Leave — unauthorised absence.</td></tr>
+  <tr><td>AUTH STR</td><td>Authorised Strength — the official government-sanctioned number of soldiers a unit is allowed to have.</td></tr>
+  <tr><td>POSTED</td><td>Soldiers officially assigned/posted to this unit (may differ from AUTH STR).</td></tr>
+  <tr><td>ERE</td><td>Extra Regimental Employment — soldiers employed outside their battalion.</td></tr>
+  <tr><td>SHAPE-1</td><td>Medical Category — fully fit for all military duties.</td></tr>
+  <tr><td>AYE / BEE / CEE</td><td>Medical Categories — progressively lower fitness levels for military duties.</td></tr>
+  <tr><td>Army No</td><td>Service number (e.g. "15492376P") — unique identifier for each soldier across the Indian Army.</td></tr>
+  <tr><td>Rank (Sep, Nk, Hav, Nb Sub, Sub, Sub Maj)</td><td>Sepoy (private), Naik (corporal), Havildar (sergeant), Naib Subedar (2nd Lt equiv JCO), Subedar (Lt equiv JCO), Subedar Major (Maj equiv JCO)</td></tr>
+  <tr><td>JCO</td><td>Junior Commissioned Officer — Naib Subedar, Subedar, Subedar Major.</td></tr>
+  <tr><td>OR</td><td>Other Ranks — non-commissioned soldiers (Havildar and below).</td></tr>
+  <tr><td>OFFR</td><td>Officer — commissioned officers (Lieutenant and above).</td></tr>
+  <tr><td>SP Company</td><td>Support Company — provides specialist support (signals, logistics, medical).</td></tr>
+  <tr><td>Attached Out</td><td>A soldier temporarily working with another unit while remaining on this battalion's rolls.</td></tr>
+  <tr><td>Posted Out</td><td>A soldier permanently transferred to another unit. They should be marked inactive in the nominal roll.</td></tr>
+</table>
+
+<hr class="section-divider">
+<p style="text-align:center; color:#888; font-size:9pt; margin-top:20pt;">
+  BN Parade State Automation — Developer Onboarding Guide v1.2 | Generated May 2026<br>
+  For support or bug reports, contact the system administrator or refer to BN_PARADE_STATE_USER_GUIDE.md
+</p>
+
+</body>
+</html>
