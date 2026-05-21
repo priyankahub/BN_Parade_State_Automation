@@ -145,21 +145,31 @@ $_tp = '../';
             </div>
             <?php else: ?>
             <div class="panel" style="padding:0;overflow:hidden;">
-                <div style="padding:14px 20px;border-bottom:1px solid var(--border-subtle);">
-                    <p class="muted" style="margin:0;"><?php echo count($records); ?> record(s)</p>
+                <div style="padding:14px 20px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                    <p class="muted" style="margin:0;flex:1;" id="record-count"><?php echo count($records); ?> record(s)</p>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <label for="filter-type" style="font-size:13px;font-weight:600;white-space:nowrap;">Filter by Type:</label>
+                        <select id="filter-type" style="font-size:13px;padding:5px 10px;border:1px solid var(--border-subtle);border-radius:6px;background:var(--card-bg);color:var(--text-primary);">
+                            <option value="">All Types</option>
+                            <?php foreach ($dutyTypes as $dt): ?>
+                            <option value="<?php echo h($dt); ?>"><?php echo h($dt); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
                 </div>
                 <div class="table-wrap">
-                    <table>
-                        <thead><tr><th>Date</th><th>Army No</th><th>Name</th><th>Duty Type</th><th>Hours</th><th>Location</th><th></th></tr></thead>
+                    <table id="duty-table">
+                        <thead><tr><th>Date</th><th>Army No</th><th>Name</th><th>Duty Type</th><th>Hours</th><th>Location</th><th>Remarks</th><th></th></tr></thead>
                         <tbody>
                         <?php foreach ($records as $r): ?>
-                        <tr>
+                        <tr data-duty-type="<?php echo h($r['duty_type']); ?>">
                             <td class="mono"><?php echo h(date('d M Y',strtotime($r['duty_date']))); ?></td>
                             <td class="mono"><?php echo h($r['army_no']); ?></td>
                             <td><?php echo h($r['rank_name'].' '.$r['full_name']); ?></td>
                             <td><span class="status-badge status-duty"><?php echo h($r['duty_type']); ?></span></td>
                             <td class="mono-sm text-muted"><?php echo h($r['duty_time'] ?: '—'); ?></td>
                             <td><?php echo h($r['location'] ?: '—'); ?></td>
+                            <td class="text-muted" style="max-width:180px;word-break:break-word;"><?php echo h($r['remarks'] ?: '—'); ?></td>
                             <td>
                                 <form method="POST" style="display:inline" onsubmit="return confirm('Delete?')">
                                     <?php echo csrf_field(); ?>
@@ -174,6 +184,24 @@ $_tp = '../';
                     </table>
                 </div>
             </div>
+            <script>
+            (function(){
+                var sel = document.getElementById('filter-type');
+                var countEl = document.getElementById('record-count');
+                if (!sel) return;
+                sel.addEventListener('change', function(){
+                    var val = this.value;
+                    var rows = document.querySelectorAll('#duty-table tbody tr');
+                    var visible = 0;
+                    rows.forEach(function(row){
+                        var match = !val || row.getAttribute('data-duty-type') === val;
+                        row.style.display = match ? '' : 'none';
+                        if (match) visible++;
+                    });
+                    countEl.textContent = visible + ' record(s)' + (val ? ' — filtered: ' + val : '');
+                });
+            })();
+            </script>
             <?php endif; ?>
         </div>
     </div>
