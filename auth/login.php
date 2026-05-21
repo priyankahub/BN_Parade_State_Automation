@@ -111,9 +111,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="text" id="username" name="username" autocomplete="username" required placeholder="Enter your username">
 
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" autocomplete="current-password" required placeholder="Enter your password">
+            <div style="position:relative;">
+                <input type="password" id="password" name="password" autocomplete="current-password" required placeholder="Enter your password" style="padding-right:42px;width:100%;box-sizing:border-box;">
+                <button type="button" onclick="var f=document.getElementById('password');var e=document.getElementById('eye-icon');if(f.type==='password'){f.type='text';e.innerHTML='&#128065;&#65038;';}else{f.type='password';e.innerHTML='&#128065;';}" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#8fa8c6;padding:0;line-height:1;">
+                    <span id="eye-icon">&#128065;</span>
+                </button>
+            </div>
 
-            <button class="btn" type="submit" style="width:100%;justify-content:center;padding:12px;">Sign In</button>
+            <button class="btn" type="submit" style="width:100%;justify-content:center;padding:12px;margin-top:12px;">Sign In</button>
         </form>
         <p class="muted" style="text-align:center;margin-top:16px;"><a href="reset_password.php" style="color:var(--gold-muted)">Forgot password?</a></p>
         <div class="login-footer-note">RESTRICTED SYSTEM — Authorised Personnel Only</div>
