@@ -306,7 +306,7 @@ body.homepage .news-ticker::before {
 body.homepage .ticker-track {
     white-space: nowrap;
     display: inline-block;
-    animation: scrollText 28s linear infinite;
+    animation: scrollText 60s linear infinite;
     font-weight: 600;
     font-size: 12px;
     letter-spacing: 0.5px;
@@ -1125,7 +1125,6 @@ tbody tr:last-child td {
 
 .company-title,
 .company-date {
-    color: var(--text-primary);
     font-family: 'Rajdhani', sans-serif;
     font-weight: 900;
     text-decoration: underline;
@@ -1135,9 +1134,14 @@ tbody tr:last-child td {
     white-space: nowrap;
 }
 
+.company-title {
+    color: var(--text-primary);
+}
+
 .company-date {
     background: var(--bg-primary);
     border-left: 1px solid var(--border-subtle);
+    color: #ffffff;
 }
 
 .company-title { font-size: 36px; }

@@ -146,6 +146,8 @@ $companies = [
     ]
 ];
 
+$istDate = (new DateTime("now", new DateTimeZone("Asia/Kolkata")))->format("d-m-Y");
+
 $selectedCompany = $_GET["company"] ?? "all";
 $reports = $selectedCompany !== "all" && isset($companies[$selectedCompany]) ? [$selectedCompany => $companies[$selectedCompany]] : $companies;
 ?>
@@ -195,7 +197,7 @@ $reports = $selectedCompany !== "all" && isset($companies[$selectedCompany]) ? [
                     DAILY PARADE STATE OF XYZ BN AS ON : <?php echo htmlspecialchars($report["title"]); ?>
                 </div>
                 <div class="company-date" style="background: <?php echo htmlspecialchars($report["dateColor"] ?? "#122944"); ?>;">
-                    DATE: <span><?php echo htmlspecialchars($report["date"]); ?></span>
+                    DATE: <span><?php echo htmlspecialchars($istDate); ?></span>
                 </div>
             </div>
 

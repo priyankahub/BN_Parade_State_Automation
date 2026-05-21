@@ -43,7 +43,13 @@
       "Bash(Measure-Object -Path \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\\\\auth\\\\login.php\" -Line)",
       "Bash(Select-Object Lines)",
       "Bash(Get-ChildItem -Path \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\" -Recurse -Filter \"*.php\")",
-      "Bash(Select-Object -ExpandProperty FullName)"
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(python -c \"import pptx; print\\('pptx ok'\\)\")",
+      "Bash(py -c \"import pptx; print\\('pptx ok'\\)\")",
+      "PowerShell(Get-Command *)",
+      "PowerShell(& \"C:\\\\xampp\\\\php\\\\php.exe\" --version 2>$null | Select-Object -First 1)",
+      "PowerShell(Get-Item \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\\\\BN_Parade_State_Briefing.pptx\" | Select-Object Name, @{N='SizeKB';E={[math]::Round\\($_.Length/1KB,1\\)}}, LastWriteTime)",
+      "PowerShell(if \\(Test-Path \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\\\\BN_Parade_State_Briefing.pptx\"\\) { $f = Get-Item \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\\\\BN_Parade_State_Briefing.pptx\"; Write-Host \"File: $\\($f.Name\\), Size: $\\([math]::Round\\($f.Length/1KB,1\\)\\) KB, Modified: $\\($f.LastWriteTime\\)\" } else { Write-Host \"File NOT found\" })"
     ]
   }
 }
