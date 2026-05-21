@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if (!$user || !$user["security_answer"]) {
             $message = "Password reset is not available for this user.";
-        } elseif (!password_verify(strtolower($answer), $user["security_answer"])) {
+        } elseif (strtolower($answer) !== $user["security_answer"]) {
             $step     = "reset";
             $question = $user["security_question"];
             $message  = "Security answer is incorrect.";
@@ -62,9 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $question = $user["security_question"];
             $message  = "New password and confirmation do not match.";
         } else {
-            $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
             $stmt = mysqli_prepare($conn, "UPDATE users SET password = ? WHERE username = ?");
-            mysqli_stmt_bind_param($stmt, "ss", $passwordHash, $username);
+            mysqli_stmt_bind_param($stmt, "ss", $newPassword, $username);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
 

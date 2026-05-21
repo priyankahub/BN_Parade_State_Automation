@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $user = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
         mysqli_stmt_close($stmt);
 
-        if ($user && password_verify($password, $user["password"])) {
+        if ($user && $password === $user["password"]) {
             clear_failures($ip, $username);
             session_regenerate_id(true);
 

@@ -14,12 +14,12 @@ if (!function_exists('_navActive')) {
 // Role-based nav items: [fragment-to-match, href-relative-to-tp, label, svg-path]
 $_navSets = [
     'ADMIN' => [
-        ['dashboard',         'dashboard.php',                   'Home',        '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>'],
-        ['manage_soldiers',   'admin/manage_soldiers.php',       'Nominal Roll','<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>'],
-        ['company_master',    'admin/company_master.php',        'Companies',   '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'],
-        ['manage_users',      'admin/manage_users.php',          'Users',       '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'],
-        ['approve_',          'admin/approve_attendance.php',    'Approvals',   '<polyline points="20 6 9 17 4 12"/>'],
-        ['daily_parade_state','reports/daily_parade_state.php',  'Reports',     '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>'],
+        ['dashboard',               'dashboard.php',                        'Home',         '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>'],
+        ['manage_soldiers',         'admin/manage_soldiers.php',            'Nominal Roll', '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>'],
+        ['company_master',          'admin/company_master.php',             'Companies',    '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>'],
+        ['manage_users',            'admin/manage_users.php',               'Users',        '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'],
+        ['approve_',                'admin/approve_attendance.php',         'Approvals',    '<polyline points="20 6 9 17 4 12"/>'],
+        ['battalion_parade_state',  'adjt_sa/battalion_parade_state.php',   'Parade State', '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>'],
     ],
     'ADJT_SA' => [
         ['dashboard',               'dashboard.php',                        'Home',         '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>'],
@@ -28,7 +28,6 @@ $_navSets = [
         ['approve_parade_state',    'adjt_sa/approve_parade_state.php',     'Approvals',    '<polyline points="20 6 9 17 4 12"/>'],
         ['duty_overview',           'adjt_sa/duty_overview.php',            'Duty',         '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'],
         ['manpower_shortages',      'adjt_sa/manpower_shortages.php',       'Shortages',    '<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'],
-        ['daily_parade_state',      'reports/daily_parade_state.php',       'Reports',      '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>'],
     ],
     'CHM_CLERK' => [
         ['dashboard',        'dashboard.php',                 'Home',        '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>'],

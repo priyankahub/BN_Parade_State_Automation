@@ -38,11 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif (!in_array($question, $securityQuestions, true)) {
             $message = "Select a valid security question.";
         } else {
-            $answerHash = password_hash(strtolower($answer), PASSWORD_DEFAULT);
+            $answerPlain = strtolower($answer);
             $stmt = mysqli_prepare($conn,
                 "UPDATE users SET security_question = ?, security_answer = ? WHERE id = ?"
             );
-            mysqli_stmt_bind_param($stmt, "ssi", $question, $answerHash, $userId);
+            mysqli_stmt_bind_param($stmt, "ssi", $question, $answerPlain, $userId);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
 
@@ -65,10 +65,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $user = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
         mysqli_stmt_close($stmt);
 
-        $validCurrent       = $user && password_verify($currentPassword, $user["password"]);
-        $sameAsNew          = $user && password_verify($newPassword, $user["password"]);
+        $validCurrent        = $user && $currentPassword === $user["password"];
+        $sameAsNew           = $user && $newPassword === $user["password"];
         $validSecurityAnswer = $user && $user["security_answer"]
-            && password_verify(strtolower($securityAnswer), $user["security_answer"]);
+            && strtolower($securityAnswer) === $user["security_answer"];
 
         if (!$validCurrent) {
             $message = "Current password is incorrect.";
@@ -83,9 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } elseif ($newPassword !== $confirmPassword) {
             $message = "New password and confirmation do not match.";
         } else {
-            $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
             $stmt = mysqli_prepare($conn, "UPDATE users SET password = ? WHERE id = ?");
-            mysqli_stmt_bind_param($stmt, "si", $passwordHash, $userId);
+            mysqli_stmt_bind_param($stmt, "si", $newPassword, $userId);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
 

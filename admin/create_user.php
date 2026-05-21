@@ -47,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($exists) {
             $message = "Username '{$old['username']}' is already taken.";
         } else {
-            $hash   = password_hash($password, PASSWORD_DEFAULT);
             $cid    = $old['company_id'] > 0 ? $old['company_id'] : null;
             $armyNo = $old['army_no'] !== "" ? $old['army_no'] : null;
 
@@ -56,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                  VALUES (?, ?, ?, ?, ?, ?, 1)"
             );
             mysqli_stmt_bind_param($stmt, "ssssis",
-                $old['name'], $old['username'], $hash, $old['role'], $cid, $armyNo);
+                $old['name'], $old['username'], $password, $old['role'], $cid, $armyNo);
 
             if (mysqli_stmt_execute($stmt)) {
                 $message      = "User '{$old['username']}' created successfully.";
