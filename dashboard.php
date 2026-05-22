@@ -11,19 +11,55 @@ $name = $_SESSION["name"];
 
 include("config/db.php");
 
-// Quick stats
-$totalPersonnel = mysqli_fetch_row(mysqli_query($conn,
-    "SELECT COUNT(*) FROM personnel WHERE service_status = 'Serving'"))[0] ?? 0;
-
-$totalCompanies = mysqli_fetch_row(mysqli_query($conn,
-    "SELECT COUNT(*) FROM companies WHERE is_active = 1"))[0] ?? 0;
-
 $today = date("Y-m-d");
-$presentToday = mysqli_fetch_row(mysqli_query($conn,
-    "SELECT COUNT(*) FROM attendance WHERE attendance_date = '$today' AND status = 'Present'"))[0] ?? 0;
 
-$pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
-    "SELECT COUNT(*) FROM attendance WHERE approval_status = 'Pending'"))[0] ?? 0;
+if ($role === "CHM_CLERK") {
+    // ── Clerk: stats scoped to their own company ──────────────────────────
+    $clerkCid = (int)($_SESSION["company_id"] ?? 0);
+
+    $totalPersonnel = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(*) FROM personnel
+         WHERE service_status = 'Serving' AND company_id = $clerkCid"))[0] ?? 0;
+
+    $totalCompanies = null; // not used for clerk view
+
+    $presentToday = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(DISTINCT a.personnel_id)
+         FROM attendance a
+         JOIN personnel p ON p.id = a.personnel_id
+         WHERE a.attendance_date = '$today' AND a.status = 'Present'
+           AND p.company_id = $clerkCid"))[0] ?? 0;
+
+    $notEnteredToday = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(*) FROM personnel p
+         WHERE p.service_status = 'Serving' AND p.company_id = $clerkCid
+           AND p.id NOT IN (
+               SELECT personnel_id FROM attendance WHERE attendance_date = '$today'
+           )"))[0] ?? 0;
+
+    $pendingApprovals = null; // not used for clerk view
+
+    $clerkCoyName = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT company_name FROM companies WHERE id = $clerkCid"))[0] ?? "Your Company";
+
+} else {
+    // ── Admin / Adjt / User: global battalion stats ───────────────────────
+    $totalPersonnel = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(*) FROM personnel WHERE service_status = 'Serving'"))[0] ?? 0;
+
+    $totalCompanies = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(*) FROM companies WHERE is_active = 1"))[0] ?? 0;
+
+    $presentToday = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(*) FROM attendance WHERE attendance_date = '$today' AND status = 'Present'"))[0] ?? 0;
+
+    $notEnteredToday = null;
+
+    $pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
+        "SELECT COUNT(*) FROM attendance WHERE approval_status = 'Pending'"))[0] ?? 0;
+
+    $clerkCoyName = null;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,9 +87,11 @@ $pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
             </div>
             <div class="stat-body">
                 <span class="stat-value"><?php echo $totalPersonnel; ?></span>
-                <span class="stat-label">Serving Personnel</span>
+                <span class="stat-label"><?php echo $role === "CHM_CLERK" ? h($clerkCoyName) . " Strength" : "Serving Personnel"; ?></span>
             </div>
         </div>
+
+        <?php if ($role !== "CHM_CLERK"): ?>
         <div class="stat-card">
             <div class="stat-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -63,6 +101,8 @@ $pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
                 <span class="stat-label">Active Companies</span>
             </div>
         </div>
+        <?php endif; ?>
+
         <div class="stat-card">
             <div class="stat-icon" style="background:rgba(34,134,58,.15);color:var(--status-present)">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
@@ -72,6 +112,19 @@ $pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
                 <span class="stat-label">Present Today</span>
             </div>
         </div>
+
+        <?php if ($role === "CHM_CLERK"): ?>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(228,126,20,.12);color:var(--saffron,#e07b2a)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="stat-body">
+                <span class="stat-value" style="color:var(--saffron,#e07b2a)"><?php echo $notEnteredToday; ?></span>
+                <span class="stat-label">Attendance Pending</span>
+            </div>
+        </div>
+        <?php endif; ?>
+
         <?php if (in_array($role, ["ADMIN","ADJT_SA"])): ?>
         <div class="stat-card">
             <div class="stat-icon" style="background:var(--saffron-muted);color:var(--saffron)">
@@ -148,6 +201,15 @@ $pendingApprovals = mysqli_fetch_row(mysqli_query($conn,
         <?php endif; ?>
 
         <?php if ($role === "CHM_CLERK"): ?>
+            <div class="card">
+                <h3>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                    Nominal Roll
+                </h3>
+                <div class="link-list">
+                    <a href="admin/manage_soldiers.php">My Company Personnel</a>
+                </div>
+            </div>
             <div class="card">
                 <h3>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>

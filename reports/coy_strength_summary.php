@@ -11,7 +11,8 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $viewDate)) $viewDate = $today;
 
 $rows = mysqli_fetch_all(mysqli_query($conn,
     "SELECT c.id, c.company_name, c.short_name,
-            COUNT(DISTINCT p.id) AS total_serving,
+            -- strength_on_record: authoritative count from personnel table (never 0 due to missing attendance)
+            (SELECT COUNT(*) FROM personnel WHERE company_id = c.id AND service_status = 'Serving') AS total_serving,
             SUM(a.status = 'Present')  AS present,
             SUM(a.status = 'Absent')   AS absent,
             SUM(a.status = 'Leave')    AS on_leave,
@@ -20,7 +21,7 @@ $rows = mysqli_fetch_all(mysqli_query($conn,
             SUM(a.status IN ('Sick Report','MH')) AS sick,
             SUM(a.status = 'TD')       AS td,
             SUM(a.status IN ('Attached Out','Other')) AS others,
-            SUM(a.status IS NULL)      AS not_entered
+            SUM(a.status IS NULL AND p.id IS NOT NULL) AS not_entered
      FROM companies c
      LEFT JOIN personnel p ON p.company_id = c.id AND p.service_status = 'Serving'
      LEFT JOIN attendance a ON a.personnel_id = p.id AND a.attendance_date = '$viewDate'

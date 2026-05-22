@@ -47,7 +47,7 @@ $pendingCount = 0;
 if ($isPriv) {
     $bnRows = mysqli_fetch_all(mysqli_query($conn,
         "SELECT c.id, c.company_name,
-                COUNT(DISTINCT p.id) AS total_serving,
+                (SELECT COUNT(*) FROM personnel WHERE company_id=c.id AND service_status='Serving') AS total_serving,
                 SUM(a.status='Present') AS present,
                 SUM(a.status='Absent') AS absent,
                 SUM(a.status='Leave') AS on_leave,
