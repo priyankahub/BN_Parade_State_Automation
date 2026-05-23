@@ -6,6 +6,8 @@ if (!isset($_SESSION["role"])) {
     exit;
 }
 
+function h($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
+
 $role = $_SESSION["role"];
 $name = $_SESSION["name"];
 
@@ -19,7 +21,7 @@ if ($role === "CHM_CLERK") {
 
     $totalPersonnel = mysqli_fetch_row(mysqli_query($conn,
         "SELECT COUNT(*) FROM personnel
-         WHERE service_status = 'Serving' AND company_id = $clerkCid"))[0] ?? 0;
+         WHERE company_id = $clerkCid"))[0] ?? 0;
 
     $totalCompanies = null; // not used for clerk view
 

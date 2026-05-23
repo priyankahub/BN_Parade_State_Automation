@@ -52,7 +52,15 @@
       "PowerShell(if \\(Test-Path \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\\\\BN_Parade_State_Briefing.pptx\"\\) { $f = Get-Item \"C:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\\\\BN_Parade_State_Briefing.pptx\"; Write-Host \"File: $\\($f.Name\\), Size: $\\([math]::Round\\($f.Length/1KB,1\\)\\) KB, Modified: $\\($f.LastWriteTime\\)\" } else { Write-Host \"File NOT found\" })",
       "Bash(git config *)",
       "Bash(git commit -m ' *)",
-      "PowerShell(& \"C:\\\\xampp\\\\php\\\\php.exe\" -r \"echo sys_get_temp_dir\\(\\);\")"
+      "PowerShell(& \"C:\\\\xampp\\\\php\\\\php.exe\" -r \"echo sys_get_temp_dir\\(\\);\")",
+      "Bash(Get-ChildItem -Path \"c:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\" -Recurse -Depth 3)",
+      "Bash(ConvertTo-Csv -NoTypeInformation)",
+      "Bash(Out-String)",
+      "PowerShell(Get-ChildItem -Path \"c:\\\\xampp\\\\htdocs\\\\BN_Parade_State_Automation\" -Recurse | Where-Object { $_.PSIsContainer } | Select-Object -ExpandProperty FullName | Sort-Object)",
+      "Bash(mysql -u root bn_parade_state_db)",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root bn_parade_state_db -e \"source C:/xampp/htdocs/BN_Parade_State_Automation/database/agniveers_setup.sql\")",
+      "PowerShell(if \\($?\\) { \"SUCCESS\" } else { \"FAILED\" })",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root bn_parade_state_db -e \"SELECT army_no, enrolment_date, DATE_ADD\\(enrolment_date, INTERVAL 4 YEAR\\) AS tenure_end FROM agniveers ORDER BY enrolment_date LIMIT 10;\")"
     ]
   }
 }
