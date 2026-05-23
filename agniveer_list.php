@@ -8,6 +8,25 @@ function h($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
 include("config/db.php");
 
+// Auto-create agniveers table if it doesn't exist on this installation
+mysqli_query($conn, "
+    CREATE TABLE IF NOT EXISTS agniveers (
+        id             INT AUTO_INCREMENT PRIMARY KEY,
+        army_no        VARCHAR(50) NOT NULL UNIQUE,
+        full_name      VARCHAR(120) NOT NULL,
+        company_id     INT NOT NULL,
+        trade          ENUM('GD','Tech','Clerk','Tradesman') DEFAULT 'GD',
+        dob            DATE DEFAULT NULL,
+        enrolment_date DATE DEFAULT NULL,
+        home_state     VARCHAR(80) DEFAULT NULL,
+        blood_group    VARCHAR(10) DEFAULT NULL,
+        mobile_no      VARCHAR(15) DEFAULT NULL,
+        status         ENUM('Active','Transferred','Discharged') DEFAULT 'Active',
+        created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (company_id) REFERENCES companies(id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+");
+
 $role     = $_SESSION["role"];
 $isClerk  = ($role === "CHM_CLERK");
 $clerkCid = (int)($_SESSION["company_id"] ?? 0);

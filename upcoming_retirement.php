@@ -8,6 +8,10 @@ function h($v) { return htmlspecialchars((string)$v, ENT_QUOTES, 'UTF-8'); }
 
 include("config/db.php");
 
+// Auto-add date_of_joining column if missing on this installation
+mysqli_query($conn,
+    "ALTER TABLE personnel ADD COLUMN IF NOT EXISTS date_of_joining DATE DEFAULT NULL AFTER date_of_enrolment");
+
 $role     = $_SESSION["role"];
 $isClerk  = ($role === "CHM_CLERK");
 $clerkCid = (int)($_SESSION["company_id"] ?? 0);
