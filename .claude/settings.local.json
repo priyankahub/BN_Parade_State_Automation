@@ -60,7 +60,8 @@
       "Bash(mysql -u root bn_parade_state_db)",
       "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root bn_parade_state_db -e \"source C:/xampp/htdocs/BN_Parade_State_Automation/database/agniveers_setup.sql\")",
       "PowerShell(if \\($?\\) { \"SUCCESS\" } else { \"FAILED\" })",
-      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root bn_parade_state_db -e \"SELECT army_no, enrolment_date, DATE_ADD\\(enrolment_date, INTERVAL 4 YEAR\\) AS tenure_end FROM agniveers ORDER BY enrolment_date LIMIT 10;\")"
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root bn_parade_state_db -e \"SELECT army_no, enrolment_date, DATE_ADD\\(enrolment_date, INTERVAL 4 YEAR\\) AS tenure_end FROM agniveers ORDER BY enrolment_date LIMIT 10;\")",
+      "PowerShell(& \"C:\\\\xampp\\\\mysql\\\\bin\\\\mysql.exe\" -u root bn_parade_state_db -e \"SELECT id, army_no, rank_name, full_name, company_id FROM personnel ORDER BY company_id, rank_name LIMIT 80;\")"
     ]
   }
 }

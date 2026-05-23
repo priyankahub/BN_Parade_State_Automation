@@ -103,6 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add_personnel"])) {
     $newRemark    = trim($_POST["n_status_remark"] ?? "");
     $newDob       = trim($_POST["n_dob"] ?? "");
     $newDoe       = trim($_POST["n_date_of_enrolment"] ?? "");
+    $newDOJ       = trim($_POST["n_date_of_joining"] ?? "");
     $newBlood     = trim($_POST["n_blood_group"] ?? "");
     $newState     = trim($_POST["n_home_state"] ?? "");
     $newPin       = trim($_POST["n_pin_code"] ?? "");
@@ -142,6 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add_personnel"])) {
         $remarkVal  = ($newStatus === "Other") ? $newRemark : null;
         $dobVal     = $newDob     ?: null;
         $doeVal     = $newDoe     ?: null;
+        $dojVal     = $newDOJ     ?: null;
         $bloodVal   = $newBlood   ?: null;
         $stateVal   = $newState   ?: null;
         $pinVal     = $newPin     ?: null;
@@ -153,16 +155,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["add_personnel"])) {
         $ins = mysqli_prepare($conn,
             "INSERT INTO personnel
              (army_no, rank_name, full_name, company_id, platoon_id, trade,
-              service_status, status_remark, dob, date_of_enrolment, blood_group,
-              home_state, pin_code, mobile_no, marital_status, med_cat,
+              service_status, status_remark, dob, date_of_enrolment, date_of_joining,
+              blood_group, home_state, pin_code, mobile_no, marital_status, med_cat,
               al_balance, cl_balance, bn_team, emergency_contact)
-             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        // s=string i=int: army_no(s) rank(s) name(s) company_id(i) platoon_id(i) trade(s)
-        //   status(s) remark(s) dob(s) doe(s) blood(s) state(s) pin(s) mobile(s)
-        //   marital(s) medcat(s) al(i) cl(i) team(s) emergency(s)
-        mysqli_stmt_bind_param($ins, "sssiisssssssssssiiss",
+             VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        mysqli_stmt_bind_param($ins, "sssiisssssssssssssiiss",
             $newArmyNo, $newRank, $newName, $newCompany, $newPlatoon, $tradeVal,
-            $newStatus, $remarkVal, $dobVal, $doeVal, $bloodVal,
+            $newStatus, $remarkVal, $dobVal, $doeVal, $dojVal, $bloodVal,
             $stateVal, $pinVal, $mobileVal, $newMarital, $newMedCat,
             $newAL, $newCL, $teamVal, $emergVal);
         mysqli_stmt_execute($ins);
@@ -194,10 +193,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_status"])) {
 
         if ($allowed) {
             $upTrade   = trim($_POST["trade"] ?? "");
+            $upRank    = trim($_POST["rank_name"] ?? "");
+            $upDOJ     = trim($_POST["date_of_joining"] ?? "") ?: null;
             $remarkVal = ($upStatus === "Other") ? $upRemark : null;
             $upd = mysqli_prepare($conn,
-                "UPDATE personnel SET trade = ?, service_status = ?, status_remark = ? WHERE army_no = ?");
-            mysqli_stmt_bind_param($upd, "ssss", $upTrade, $upStatus, $remarkVal, $upArmyNo);
+                "UPDATE personnel SET trade = ?, rank_name = ?, service_status = ?, status_remark = ?, date_of_joining = ? WHERE army_no = ?");
+            mysqli_stmt_bind_param($upd, "ssssss", $upTrade, $upRank, $upStatus, $remarkVal, $upDOJ, $upArmyNo);
             mysqli_stmt_execute($upd);
             mysqli_stmt_close($upd);
             $updateMsg = "Record updated successfully.";
@@ -246,21 +247,45 @@ if ($rank !== "") {
     $types   .= "s";
 }
 
-// Check if status_remark column exists; add it automatically if missing
+// Auto-add missing columns (status_remark, date_of_joining)
 $colCheck = mysqli_query($conn,
     "SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS
      WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'personnel' AND COLUMN_NAME = 'status_remark'");
-$colExists = (int)(mysqli_fetch_assoc($colCheck)["cnt"] ?? 0);
-if (!$colExists) {
+if (!(int)(mysqli_fetch_assoc($colCheck)["cnt"] ?? 0)) {
     mysqli_query($conn,
         "ALTER TABLE personnel
            MODIFY COLUMN service_status ENUM('Serving','Attached Out','Posted Out','Retired','Other') DEFAULT 'Serving',
            ADD COLUMN status_remark VARCHAR(255) DEFAULT NULL AFTER service_status");
 }
+$dojCheck = mysqli_query($conn,
+    "SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS
+     WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'personnel' AND COLUMN_NAME = 'date_of_joining'");
+if (!(int)(mysqli_fetch_assoc($dojCheck)["cnt"] ?? 0)) {
+    mysqli_query($conn, "ALTER TABLE personnel ADD COLUMN date_of_joining DATE DEFAULT NULL AFTER date_of_enrolment");
+}
 
 $whereSql  = $where ? "WHERE " . implode(" AND ", $where) : "";
 $sql       = "SELECT p.army_no, p.rank_name, p.full_name, p.trade,
-                     p.service_status, p.status_remark, c.company_name, c.short_name
+                     p.service_status, p.status_remark, p.date_of_joining,
+                     c.company_name, c.short_name,
+                     CASE
+                       WHEN p.rank_name IN ('Sep','Lnk') THEN DATE_ADD(p.date_of_joining, INTERVAL 17 YEAR)
+                       WHEN p.rank_name = 'Nk'           THEN DATE_ADD(p.date_of_joining, INTERVAL 22 YEAR)
+                       WHEN p.rank_name = 'Hav'          THEN DATE_ADD(p.date_of_joining, INTERVAL 24 YEAR)
+                       WHEN p.rank_name IN ('Nb Sub','NbSub') THEN DATE_ADD(p.date_of_joining, INTERVAL 26 YEAR)
+                       WHEN p.rank_name = 'Sub'          THEN DATE_ADD(p.date_of_joining, INTERVAL 28 YEAR)
+                       ELSE DATE_ADD(p.date_of_joining, INTERVAL 32 YEAR)
+                     END AS retirement_date,
+                     DATEDIFF(
+                       CASE
+                         WHEN p.rank_name IN ('Sep','Lnk') THEN DATE_ADD(p.date_of_joining, INTERVAL 17 YEAR)
+                         WHEN p.rank_name = 'Nk'           THEN DATE_ADD(p.date_of_joining, INTERVAL 22 YEAR)
+                         WHEN p.rank_name = 'Hav'          THEN DATE_ADD(p.date_of_joining, INTERVAL 24 YEAR)
+                         WHEN p.rank_name IN ('Nb Sub','NbSub') THEN DATE_ADD(p.date_of_joining, INTERVAL 26 YEAR)
+                         WHEN p.rank_name = 'Sub'          THEN DATE_ADD(p.date_of_joining, INTERVAL 28 YEAR)
+                         ELSE DATE_ADD(p.date_of_joining, INTERVAL 32 YEAR)
+                       END, CURDATE()
+                     ) AS days_to_retirement
               FROM personnel p
               JOIN companies c ON c.id = p.company_id
               $whereSql
@@ -302,7 +327,7 @@ if ($export === "excel") {
     header("Content-Type: application/vnd.ms-excel");
     header("Content-Disposition: attachment; filename=nominal_roll_personnel.xls");
     echo "<table border=\"1\">";
-    echo "<tr><th>Army No</th><th>Rank</th><th>Name</th><th>Company</th><th>Trade</th><th>Status</th><th>Remark</th></tr>";
+    echo "<tr><th>Army No</th><th>Rank</th><th>Name</th><th>Company</th><th>Trade</th><th>Date of Joining</th><th>Retirement Date</th><th>Status</th><th>Remark</th></tr>";
     foreach ($personnel as $row) {
         echo "<tr>"
            . "<td>" . h($row["army_no"]) . "</td>"
@@ -310,6 +335,8 @@ if ($export === "excel") {
            . "<td>" . h($row["full_name"]) . "</td>"
            . "<td>" . h($row["company_name"]) . "</td>"
            . "<td>" . h($row["trade"]) . "</td>"
+           . "<td>" . ($row["date_of_joining"] ? date("d M Y", strtotime($row["date_of_joining"])) : "") . "</td>"
+           . "<td>" . ($row["retirement_date"] ? date("d M Y", strtotime($row["retirement_date"])) : "") . "</td>"
            . "<td>" . h($row["service_status"]) . "</td>"
            . "<td>" . h($row["status_remark"] ?? "") . "</td>"
            . "</tr>";
@@ -358,8 +385,28 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                 <input type="hidden" name="<?php echo h($k); ?>" value="<?php echo h($v); ?>">
             <?php endforeach; ?>
 
-            <label for="modal_trade" style="display:block;margin-bottom:4px;font-size:13px;">Trade</label>
-            <input type="text" id="modal_trade" name="trade" placeholder="e.g. Rifleman, Signalman…"
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                <div>
+                    <label for="modal_rank" style="display:block;margin-bottom:4px;font-size:13px;">Rank</label>
+                    <input type="text" id="modal_rank" name="rank_name" list="modal_rank_list"
+                        placeholder="Sep, Nk, Hav…"
+                        style="width:100%;box-sizing:border-box;">
+                    <datalist id="modal_rank_list">
+                        <option value="Sep"><option value="Lnk"><option value="Nk">
+                        <option value="Hav"><option value="Nb Sub"><option value="Sub">
+                        <option value="Sub Maj"><option value="Lt"><option value="Capt">
+                        <option value="Maj"><option value="Col">
+                    </datalist>
+                </div>
+                <div>
+                    <label for="modal_trade" style="display:block;margin-bottom:4px;font-size:13px;">Trade</label>
+                    <input type="text" id="modal_trade" name="trade" placeholder="e.g. Rifleman…"
+                        style="width:100%;box-sizing:border-box;">
+                </div>
+            </div>
+
+            <label for="modal_doj" style="display:block;margin-bottom:4px;font-size:13px;">Date of Joining</label>
+            <input type="date" id="modal_doj" name="date_of_joining"
                 style="width:100%;box-sizing:border-box;margin-bottom:14px;">
 
             <label for="modal_status" style="display:block;margin-bottom:4px;font-size:13px;">Service Status</label>
@@ -588,6 +635,17 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                     </div>
                 </div>
 
+                <!-- Row 5b: Date of Joining -->
+                <div style="margin-bottom:14px;">
+                    <label style="font-size:13px;display:block;margin-bottom:4px;">
+                        Date of Joining
+                        <span style="color:#8fa8c6;font-weight:normal;font-size:11px;">(used to calculate retirement date)</span>
+                    </label>
+                    <input type="date" name="n_date_of_joining"
+                           value="<?php echo h($_POST['n_date_of_joining'] ?? ''); ?>"
+                           style="width:50%;box-sizing:border-box;">
+                </div>
+
                 <!-- Row 6: Blood Group + Marital Status -->
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
                     <div>
@@ -707,6 +765,8 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                         <th>Name</th>
                         <?php if (!$isClerk): ?><th>Company</th><?php endif; ?>
                         <th>Trade</th>
+                        <th>Date of Joining</th>
+                        <th>Retirement Date</th>
                         <th>Status</th>
                         <th>Remark</th>
                         <th>Action</th>
@@ -714,7 +774,7 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                 </thead>
                 <tbody>
                     <?php if (!$personnel): ?>
-                        <tr><td colspan="<?php echo $isClerk ? 7 : 8; ?>">No personnel found.</td></tr>
+                        <tr><td colspan="<?php echo $isClerk ? 9 : 10; ?>">No personnel found.</td></tr>
                     <?php endif; ?>
                     <?php foreach ($personnel as $row):
                         $statusClass = match($row["service_status"]) {
@@ -723,6 +783,26 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                             "Other"        => "color:var(--saffron,#e07b2a)",
                             default        => "color:var(--gold,#c9a227)",
                         };
+                        $daysLeft = isset($row['days_to_retirement']) ? (int)$row['days_to_retirement'] : null;
+                        if ($row['date_of_joining'] && $row['retirement_date']) {
+                            if ($daysLeft < 0) {
+                                $retStyle = 'color:var(--muted,#8fa8c6)';
+                                $retTag   = '<span style="font-size:10px;background:rgba(239,68,68,.12);color:#f87171;padding:1px 6px;border-radius:4px;font-weight:700;margin-left:4px;">Completed</span>';
+                            } elseif ($daysLeft <= 90) {
+                                $retStyle = 'color:var(--status-absent,#d73a49);font-weight:700';
+                                $retTag   = '<span style="font-size:10px;background:rgba(239,68,68,.15);color:#f87171;padding:1px 6px;border-radius:4px;font-weight:700;margin-left:4px;">' . $daysLeft . 'd</span>';
+                            } elseif ($daysLeft <= 365) {
+                                $retStyle = 'color:#d97706;font-weight:600';
+                                $mos      = round($daysLeft / 30);
+                                $retTag   = '<span style="font-size:10px;background:rgba(234,179,8,.15);color:#d97706;padding:1px 6px;border-radius:4px;font-weight:700;margin-left:4px;">' . $mos . ' mo</span>';
+                            } else {
+                                $retStyle = 'color:var(--text)';
+                                $retTag   = '';
+                            }
+                        } else {
+                            $retStyle = 'color:var(--muted,#8fa8c6)';
+                            $retTag   = '';
+                        }
                     ?>
                         <tr>
                             <td><?php echo h($row["army_no"]); ?></td>
@@ -732,6 +812,15 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                             <td><?php echo h($row["company_name"]); ?></td>
                             <?php endif; ?>
                             <td><?php echo h($row["trade"] ?: "—"); ?></td>
+                            <td style="font-size:13px;color:var(--muted,#8fa8c6);">
+                                <?php echo $row["date_of_joining"] ? date("d M Y", strtotime($row["date_of_joining"])) : "—"; ?>
+                            </td>
+                            <td style="font-size:13px;<?php echo $retStyle; ?>;">
+                                <?php if ($row["retirement_date"]): ?>
+                                    <?php echo date("d M Y", strtotime($row["retirement_date"])); ?>
+                                    <?php echo $retTag; ?>
+                                <?php else: ?>—<?php endif; ?>
+                            </td>
                             <td style="<?php echo $statusClass; ?>;font-weight:600;">
                                 <?php echo h($row["service_status"]); ?>
                             </td>
@@ -743,7 +832,9 @@ $exportPrefix = $baseQuery ? $baseQuery . "&" : "";
                                     style="padding:4px 10px;font-size:12px;"
                                     data-army-no="<?php echo h($row['army_no']); ?>"
                                     data-name="<?php echo h($row['full_name']); ?>"
+                                    data-rank="<?php echo h($row['rank_name']); ?>"
                                     data-trade="<?php echo h($row['trade'] ?? ''); ?>"
+                                    data-doj="<?php echo h($row['date_of_joining'] ?? ''); ?>"
                                     data-status="<?php echo h($row['service_status']); ?>"
                                     data-remark="<?php echo h($row['status_remark'] ?? ''); ?>"
                                     onclick="openEdit(this)">
@@ -784,13 +875,17 @@ window.addEventListener('DOMContentLoaded', openAddModal);
 function openEdit(btn) {
     var armyNo = btn.dataset.armyNo;
     var name   = btn.dataset.name;
-    var trade  = btn.dataset.trade;
+    var rank   = btn.dataset.rank   || '';
+    var trade  = btn.dataset.trade  || '';
+    var doj    = btn.dataset.doj    || '';
     var status = btn.dataset.status;
-    var remark = btn.dataset.remark;
+    var remark = btn.dataset.remark || '';
 
     document.getElementById('modal_army_no').value       = armyNo;
     document.getElementById('modal_soldier').textContent = name + '  ·  ' + armyNo;
+    document.getElementById('modal_rank').value          = rank;
     document.getElementById('modal_trade').value         = trade;
+    document.getElementById('modal_doj').value           = doj;
     document.getElementById('modal_status').value        = status;
     document.getElementById('modal_remark').value        = remark;
     toggleRemark(status);
